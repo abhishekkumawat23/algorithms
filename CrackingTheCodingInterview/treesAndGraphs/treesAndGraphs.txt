@@ -1,0 +1,190 @@
+Tree
+1. Tree is type of graph.
+2. Tree has a root node. Root node is the node which doesn't have any parent.
+3. Root node has zero or more child nodes.
+4. Each child node has zero or more child node and so on.
+5. Tree can't contain cycles.
+6. Tree implemented using Node class can be singly linked (parent to child) OR doubly linked. i.e. Tree is enhancement of linked list.
+7. Usually we are studying here single linke tree but somtimes interviewer can ask a question where doubly linked list makes more sense.
+8. Important examples of trees are:
+   a. AVL tree - self-balancing binary search tree.
+   b. Red black tree - self-balancing binary search tree.
+   c. Min-heap - complete binary tree
+   d. Tries/Prefix tree - n-ary tree. Not a binary tree. 
+
+Binary tree
+1. Binary tree is a tree where each node can have at max 2 nodes.
+2. A node is called leaf node if it doesn't have any child.
+
+Binary search tree
+1. Binary search tree is a tree where each node fits the property that: `all left descendents < n < all right descendents`.
+2. In interview, don't assume that a tree question is binary search tree question. Confirm it.
+3. It's not necessary that binary search tree is balanced. We can have a imbalanced binary search tree as well.
+4. Because of the condition of binary search tree, a searching an element in balanced binary search tree can happen in O(log(n)) time.
+5. Because of the condition of binary search tree, in-order travesal of tree will given sorted elements.
+6. If two elements are equal, then it can be stored either on right or left. But if we store it in right, then stability will be maintained for in-order traversal.
+   i.e. sorting elements via in-order traversal will be a stable sort if equal element stored on right side.
+7. AVL tree and Red black trees are examples of self-balancing binary search trees.
+
+Balanced vs. unbalanced binary tree
+1. Balanced tree means `not terribly imbalanced`. i.e. even if tree is not perfectly balanced, it can still be called balanced tree.
+2. Balanced tree are not necessarily binary search tree. 
+3. If a tree is balanced and is a binary search tree, then searching an element can happen in O(log(n)) time.
+4. Red black tree is not perfectly balanced but still is called balanced binary search tree because search happens in O(log(n)) time.
+
+Complete binary tree
+1. Complete binary tree has all of its levels fully filled except for perhaps the last level.
+2. Even the last level should be filled from left to right.
+3. Diff between max height and min height of complete binary tree should not be greater than 1.
+4. If we convert the complete binary tree into array, use following:
+   a. Store tree in breathe traversal
+   b. If index of parent is i, then left child will be at 2i+1 and right child will be at 2i+2. We can prove that this theorem by putting index on tree in breadth traversal form.
+5. If we want to go to ith element of complete binary tree, then its very easy from array implementation. But its easy from Node implementation as well.:
+   a. Just convert i into binary form and remove first digit.
+   b. Then for 0 move left and for 1 move right.
+   c. The proof of this is based on i, 2i+1, 2i+2 funda only.
+6. In linked binary tree implmentation, if we are maintaining the size of tree, we can easily get height in O(1) and also we can insert element in O(log(n)) using above binary number funda.
+
+Full binary tree
+1. Full binary tree has each node with either 0 children or 2 children. Thus no node has only one child.
+
+Perfect binary tree
+1. Perfect binary tree is both complete binary tree and full binary tree.
+2. In addition, perfect binary tree should be at same level.
+3. By above conditions, perfect tree has exactly 2^h-1 nodes where h is number of levels in tree. Also 2^h = (n+1)/2.
+4. Thus last level has (n+1)/2 elements
+
+Binary tree traversal
+1. Tree traversal can be done using following:
+   a. Depth first traversal - recursive search
+   b. Breadth fist traversal - not a recursive search.
+2. Depth first traversal is the most common tree traversal. It contains following types of tree traversal:
+   a. In-order traversal
+   b. Pre-order traversal
+   c. Post-order traversal
+3. In-order traversal:
+   a. Visit the left branch, then the current node and finally the right branch.
+   b. When performed on binary search tree, it visits the nodes in ascending order i.e. sort
+4. Pre-order traversal:
+   a. Visit the current node, then the left branch and finally the right branch.
+   b. Root node is always visited first in this type of traversal.
+5. Post-order traversal: 
+   a. Visit the left branch, then the right branch and finally the current node.
+   b. Root node is always visited last in this type of traversal.
+   c. Reverse of postorder is preorder traversal with right element visiting before left child.
+6. Breadth first traversal is not recursive and uses queue for implementaion. If interviewer asks breadth first traversal, remember to use queue.
+
+Height of tree:
+1. Height of tree is no. of edges(links) between the node and the leaf node of its longest path.
+2. Depth is opposite of height.
+3. So if tree has only root element, then as there are no edges, its height is 0.
+4. Height of leaf nodes is always 0.
+5. Height of null node is -1.
+
+Binary heaps:
+1. Min-heap:
+   a. Min-heap is a complete binary tree where each node is smaller than child nodes.
+   b. Thus the root node is minimum element in the tree.
+   c. min-heap is binary tree and not a binary search tree as both left and right child nodes are greater than parent node.
+   d. Insert and removing takes O(log(n)) time but getting the minimum element takes O(1) time.
+   e. We can get the first minimum element in O(1) time but for getting first 10 minimum elements, its O(10(logn(n)) time because we need to remove the minimum element to get 2nd minimum element (and remove takes O(log(n)) time)
+   f. Simply traversing heap will not give first 10 minimum elements.
+   g. In other words, we can't sort elements just by traversal in min-heap.
+   h. As Min-heap is not binary search tree, we can't search elements in O(log(n)) time.
+   i. We can easily implement min heap using array. This is because compelte binary tree can easily be converted to array.
+2. Max-heap:
+   a. Max-heap is similar to min-heap just that each node is greater than child nodes.
+
+Tries (Prefix trees)
+1. Tries is a n-ary tree in which characters are stored at each node.
+2. The * nodes/null nodes are often used to indicate complete words.
+3. For example, the fact that there is a * node under MANY indicates thea MANY is a complete word.
+4. The existence of MA path indicates there are words that start with MA.
+5. A node in trie can have anywhere from 0 to alphabet_size+1 nodes.
+6. If there is a problem to find whether given string is a valid word or not, then if we have a hashMap storing all valid words, we can check in O(k) time if string is valid word or not. Here k is length of input string.
+7. But if the problem is to find whether given string is either a valid word or is a prefix of a valid word:
+   a. Here hashMap can help in finding only valid words and not in finding prefix of valid word.
+   b. Better solution here is to use tries containing all valid words.
+   c. Tries can check both valid words and prefix of valid word in O(k*Alphabet_size) time. For english letters, alphabet_size is 26.
+   
+Graphs
+1. Graphs are collection of nodes with edges(links) between (some of) them.
+2. A graph is directed graph if its edges has direction. i.e. edges indicate a one way relationship. i.e. each edge can be traversed in one direction i.e. one way street.
+3. A graph is undirected graph id its edges has no direction i.e. edges indicate a two way relationship. i.e. each edge can be traversed in both directions i.e. two way street.
+4. A graph is connected graph if there is a path between all possible two nodes.
+5. A graph can have cycles in it. A `acyclic graph` is one without cycles.
+6. A tree is a directed acyclic connected graph.
+
+Representing a graph:
+As we know that heap can be implemented both by using Node class and using array. Similarly graph can be implemented using various ways:
+1. Edge list: List of all edges.
+2. Adjancey list:
+   a. Graph class contains an array of Nodes. This array contains all nodes of graph.
+   b. A Node class has again an array of children nodes i.e. adjacent nodes.
+   c. So this adjancey list is actually array containing array of nodes. Alternatively we can use array/hashtable of lists(arrays, arraylists, linkedlists, etc).
+3. Adjancey matrices:
+   a. Graph class contains an array of values (no node class required, direct values are stored in array).
+   b. Adjancey matrix is a nxn boolean matrix (where n is no. of nodes) where a true value at n[i][j] represent edge from i to j node.
+   c. In undirected, as its two way, the matrix is symmetric matrix.
+   d. Adjancey list tell us adjacent nodes directly as its stored as their children nodes. In case of adjancey matrix, we have only array of values, so we need to iterate over adjancey matrix to find the adjacent nodes.
+   e. Graph algorithms(like breadth first search) which are very efficient in adjancey list are not not that efficient in adjacent matrix graph because of above point.
+   f. Also, adjanct matrix needs to store n*n matirx which is space consuming.
+   g. Only reason adjacent matrix is used as for various mathematical calculations, it is easy to operate on matrix.
+
+Graph search:
+1. For searching any element in graph, we can do following:
+   a. Breadth first search
+   b. Depth first search
+   c. Bidirectional search (type of breadth first search)
+1. Breadth-first search (BFS):
+   a. we start at the root and explore each neighbor before going on to any of their children.
+   b. i.e. we go wide before we go deep.
+   c. Breadth first search is not recursive. It uses queue. On other hand, depth first search is recursive.
+   d. If interviewer asks breadth first search, remember to use queue.
+   e. This is preferred when to find the shortest path between two nodes. The reason we are explore all neighbors first before going to children.
+   f. So any question of finding shortest path, think about using breadth first search.
+   g. Example for finding friendhip connection between A and B, we will prefer breadth first.
+   h. If every node has atmost k adjacent nodes, and shortest path between A and B node is distance d.
+      i. So, for first level, we search k nodes. For second level we search K^2 nodes.
+      ii. For d level, we search k^d nodes.
+2. Depth-first search (DFS):
+   a. We start at the root and explore each branch completely before moving on to next branch.
+   b. i.e. we go deep first before we go wide.
+   c. We prefer depth first if want to visit all nodes in the graph. The reason is depth first is bit simpler.
+   d. Major common tree traversals like in-order, pre-order and post-order are examples of depth first traversal (not depth first search).
+   e. While traversing depth first in graph, we must check is node is already visited or not. Otherwise we might stuck in infinite loop.
+   f. Depth first search is recursive but breadth first search is not.
+3. Bidirectional search (BDS):
+   a. Bidirectional search is a special type of breadth first search which is used to find shortest path between a source and destination node.
+   b. It operates by running two simultenous breadth first search, one from each node.
+   c. When their searches collide, we have found a path.
+   d. If every node has atmost k adjacent nodes, and shortest path between A and B node is distance d.
+      i. So, for first level we search k nodes. For second level we search k^(d/2) nodes.
+      ii. Each node will reach approx at d/2 when they collide. So total node searches are 2k^(d/2) ~= O(k^(d/2))
+   e. Thus for finding shortest path between two nodes, its better to use Bidirectional search(O(k^(d/2))) then breadth first search (O(k^d)).
+   g. Bidirectional search can't be used for traversal. For traversal only breadth first and dept first can be used.
+
+AVL tree
+1. Diff between height of left and right subtree for all nodes should not be greater than 1.
+2. For finding maximum possible height, we need to find minimum elements possible in height h.
+3. Maximum height scenario is when every node left and right subtree has height diff of 1.
+4. So for maximum height, So, n(h) = n(h-1) + n(h-2) + 1 => n(h)+1 = n(h-1) + 1 + n(h-2) + 1 which is a fibonacci series.
+5. Fibonacci series is Fn = Fn-1 + Fn-2
+
+Red black tree
+1. Root node should be black.
+2. NIL nodes should be black.
+3. Red nodes can have only black nodes as children.
+4. Black height should be same for all nodes.
+
+Topological Sort:
+1. A topological graph is for directed ayclic graphs only.
+2. A topological sort of a directed graph is a way of ordering the list of notes such that if (a,b) is an edge in the graph then `a` will appear before `b` in the list.
+3. If a graph has cycles or is not directed, then there is no toplogical sort.
+
+Priority Queue:
+1. Check priority queue implementation for more details
+
+Dijkstra's algorithm:
+1. Check Dijkstra implementation for more details.   
+ 

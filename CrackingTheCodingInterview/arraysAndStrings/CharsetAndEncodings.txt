@@ -1,0 +1,28 @@
+1. Machine understands 0's and 1's i.e bits only.
+2. Any human understandable character can't be recognized by machines. So each such character needs to be converted into bits so that machine can understand it.
+3. This conversion of character to bits is called character encoding.
+4. Earlier there was ASCII charset which has 128 characters. Each character points to specific integer Example A points to 65. Thus conversion from A which is 65 to bits is easy.
+5. As ASCII charset has 128 characters. It can be represented in 7 bits (2^7=128).
+6. To represent this ASCII charset, a single byte (8 bits) is used in machines.
+7. As byte has 8 bits but ASCII needs only 7 bits, highest bit was not being used.
+8. There came various charsets which extended ASCII and filled the highest bit to get their own charsets. These charsets had 256 characters.
+9. But as highest bit was understood differently by different charsets, when charset1 string was passed to machine which encodes using charset2, wrong data was coming when machine encodes and decodes.
+10. There came one more charset called unicode which has characters for all human languages. It has 1,112,064 characters as of now.
+11. Unicode characters has same int values as of ascii for same characters. i.e. A is 65 in both ascii and unicode.
+12. Characters till 65536(2^16) can be represented by magic number aka codepoint aka 16 bit hexadecimal representation. Example A is `\u0041` in hexadecimal
+13. But machines dont understand hexadecimal. They understand bits. Till ASCII things were easy as all ASCII fits in 1 byte.
+14. In unicode, we need multiple bytes. So how to encode the unicode character into multiple bytes?
+15. There came a utf-16 (unicode transformation format) encoding which stores data in 2 bytes pair. Minimum 2 byte and maximum 4 byte will represent a character. i.e. logical unit of utf-16 is 2 bytes.
+16. So till 65536(2^16) characters, 2 bytes pair will be used. After that 4 bytes.
+17. Problem in this encoding is that to represent ASCII characters also, it needs 2 bytes. ASCII needs 1 byte there. Thus it is not supported with old ASCII based systems.
+18. There came one new utf-8 encoding for unicode characters which says minimum 8 bytes and maximum 4 bytes will represent a character. i.e. logical unit in utf-8 is 1 byte.
+19. So ASCII charaters in utf-8 has 1 byte only thus this encoding is supported by old ascii system as well.
+20. As mostly used characters are ASCII. Using 1 byte for them saves space as well.
+21. As utf-16 uses 2 bytes.For A character, it can represent it via both \u0041(low endian) or \u4100 (high endian).
+22. Some machines are fast in low endian and some machine are fast in high endian and thus if a machine stores data in low endian encoding, if it gets data in utf-16 high endian encoding, it needs to convert it.
+23. Whenever a utf-16 data comes in machine, the machine should somehow know in which endian it is.
+24. We use a BOM (byte order mark) which is a character in unicode charset. This character is passed as first character when sending some data to a machine.
+25. Machine reads this BOM mark. if this BOM is \uFEFF, then this means low endian. If BOM is \uFFFE, then this means high endian.
+26. This problem of endian is not in utf-8 as its logical unit is 1 byte.
+27. Localization is to make your website render in japaense if it is being opened in japan and in english if it is being opened in USA.
+28. Globalization/Internatianalization is to make your website such that it can encode/parse both japanese data input and english data input. In addition, things like time should be global and not specific to USA time.

@@ -1,0 +1,2 @@
+1. hash table section
+2. Additional readings: hash table collision resolution
