@@ -13,7 +13,7 @@ public class InorderTraversal<E> {
 	 * Important points:
 	 * 1. Space complexity of inorder traversal is O(h) where h is height of tree. It is not O(n) because:
 	 *    a. recusrion stack is first going node <- node.left until node is null which is O(h)
-	 *    b. After that recusrion stack is goind node <- node.right until node is null which is again O(h).  
+	 *    b. After that recursion stack is going node <- node.right until node is null which is again O(h).  
 	 * 
 	 * Pseudo code:
 	 * inorder(root)

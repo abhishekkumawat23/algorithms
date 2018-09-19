@@ -286,13 +286,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 	 *       parent <- current
 	 *       current <- right[current]
 	 *     else
-	 *       if left[current] = NIL and right[current] = NIL
-	 *         if e < data[parent]
-	 *           left[parent] <- NIL
-	 *         else
-	 *           right[parent] <- NIL
-	 *         break
-	 *       else if left[current] = NIL
+	 *       if left[current] = NIL
 	 *         if e < data[parent]
 	 *           left[parent] <- right[current]
 	 *         else
@@ -332,18 +326,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
 				current = current.right;
 			}
 			else {
-				// Case 1 : No children
-				if (current.left == null && current.right == null) {
-					if (e.compareTo(parent.data) < 0) {
-						parent.left = null;
-					}
-					else {
-						parent.right = null;
-					}
-					break;
-				}
-				// Case 2: One children
-				else if (current.left == null) {
+				// Case 1 & 2: No children and one children
+				if (current.left == null) {
 					if (e.compareTo(parent.data) < 0) {
 						parent.left = current.right;
 					}

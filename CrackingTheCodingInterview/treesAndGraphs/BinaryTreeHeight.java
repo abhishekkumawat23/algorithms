@@ -8,12 +8,12 @@ import java.util.Stack;
  * 
  * Important points:
  * 1. In case, binary tree is complete binary tree and we are representing it via array, we can easily find height via using i and 2i+1 funda.
- * 2. Even for node representation, for compelte and perfect binary tree, getting height is O(log(n)) as we just need to do current = current.left 
+ * 2. Even for node representation, for complete and perfect binary tree, getting height is O(log(n)) as we just need to do current = current.left 
  */
 public class BinaryTreeHeight<E> {
 
 	/**
-	 * Time: O(n); Space: O(log(n))
+	 * Time: O(n); Spac	e: O(log(n))
 	 * 
 	 * Pseudo code:
 	 * height(node):
