@@ -1,0 +1,50 @@
+Question:
+Deck of cards:
+Design the data structures for a generic deck of cards.
+Explain how you would subclass the data structures to implement the blackjack.
+
+Answer:
+Step 1: Define core objects
+Card
+Hand
+Deck
+Suit
+BlackJackCard
+BlackJackHand
+
+Step 2: Define relationships
+Card has a suit
+Card has a face value
+Hand has cards
+Deck has cards
+BlackJackCard is a card
+BlackJackHand is a hand
+
+Step 3: Define actions
+Card:
+value - returns value of card
+getFaceValue - returns face value of card
+getSuit - return suit of card
+isAvailable - checks if card is avialble to be given to any player or nor.
+markAvaiable - marks a card avaiable.
+
+Hand:
+addCard - add card in hand
+score - score of the hand
+
+Deck:
+resetDeck - reset deck
+shuffle - shuffles deck
+dealCard - deals a card
+dealHand - deals a hand
+remainingCards - returns the count of remaining cards.
+
+BlackJackCard:
+value - return value 10 for cards with face value 11 to 13. For others return the face value
+isFaceCard - returns true for face value >= 11 and <= 13
+
+BlackJackHand:
+score - scoring is done so that it return minOver21 or maxUnder21 with preference to maxUnder21.
+busted - checks if hand is busted or not
+is21 - checks if hand score is 21
+

@@ -1,0 +1,26 @@
+Object oriented designing:
+Step 1: Define core objects
+Step 2: Define relationships between objects
+        a. Check is-a and has-a relationship
+        b. Check one-one, one-many, many-one relationship
+Step 3: Define object methods/actions
+        a. Define actions
+        b. Define internal actions
+        c. Use patterns like singleton, factory
+        
+Important points:
+1. Don't create class dependecies Example `has-a` realtions. E.g. Human has eyes. Here eyes should not created within Human class.
+2. Dependencies which can be passed, should be passed in constructor.
+3. If dependencies can't be passed in constructor, then instead of creating dependency inside class, create it from some manager class.
+4. These above things are done following dependency injection pattern and also for writing unit tests properly.
+5. Interface:
+   a. Implements a contract by multiple unrelated objects.
+   b. Example: Many unrelated objects can implement Serializable intereface.
+   c. Interface provides "has a" capability.
+   d. Example, A class has serializing capability if it implements Serializale interface.
+   6. ClassA and ClassB even if both implements Serializable can be unrelated.
+6. Abstract class:
+   a. Implement same of different behavior among multiple related objects.
+   b. It establishes a "is a" relation.
+   c. Example: FileReader extends Reader abstract class.
+   d. ClassA and ClassB if extends an abstract class are related objects. Example FileReader and BufferedReader are related through Reader class and their common prupose is to read data.

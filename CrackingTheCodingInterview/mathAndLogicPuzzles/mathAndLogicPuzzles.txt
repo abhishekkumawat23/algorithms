@@ -1,0 +1,35 @@
+Prime numbers:
+1. 1 is not a prime number.
+2. Every positive integer can be decomposed into product of primes.
+   Example: 84 = 2^2 * 3^1 * 5^0 * 7^1 * 11^0 * 13^0 * ...
+3. If x = 2^j0 * 3^j1 * 5^j2 * ... and y = 2^k0 * 3^k1 * 5^k2 * ..., then
+   a. gcd = 2^min(j0,k0) * 3^min(j1,k1) * 5^min*j2,k2) * ...
+   b. lcm = 2^max(j0,k0) * 3^max(j1,k1) * 5^max*j2,k2) * ...
+4. As we know that, max(x1,x2)*min(x1,x2), So gcd*lcm = x*y
+
+Find if number is prime:
+1. 2 is the only prime number which is even.
+2. So, to find if number is prime, following are the approches:
+   a. Go till n-1: iterate from 2 to n-1 and find if n is divisible by any number
+   b. Go till n/2: iterate from 2 to n/2
+   c. Go till sqrt(n): iterate from 2 to sqrt(n)
+   d. Go till sqrt(n) but check only odd numbers: iterate from 3 to sqrt(n) but check only odd numbers.
+
+Generate list of primes till n- Sieve of eratosthenes
+1. Store a boolean array till n/2. Name this array `Prime`. This array will store true if element is prime.
+2. This array will contain values 3, 5, 7, .. n i.e. only add numbers after 2. This is because except all primer numbers are ood. 
+3. Set all values of prime array as true.
+3. Start from array first element whose value is true and set all values divisible by that prime number as false.
+4. Next prime number will be the one whose flag value is still true.
+5. Iterate till sqrt(n).
+6. At the end, return 2, Prime array to return prime list till n.
+
+Probability of A and B and Probability of A or B:
+1. P(A and B) = P(B given A)*P(A) = P(A given B)*P(B)
+   Example: For x from 1 to 10, P(x is even and x <= 5) = P(x is even given x <= 5)*P(x <= 5) = (2/5)*(1/2) = 1/5
+2. P(A or B) = P(A) + P(B) - P(A and B)
+   Example: For x from 1 to 10, P(x is even or x <= 5) = P(x is even) - P(x <= 5) + P(x is even and x <= 5) = 1/2 + 1/2 - 1/5 = 4/5 
+
+Independant events and mutual exclusive events:
+1. Independant events are not effected by occurence of each other i.e. P(A and B) = P(A) + P(B) i.e. P(A given B) = P(A)
+2. Mutual exclusive events are the ones which can't happen together i.e P(A and B) = 0 i.e. P(A or B) = P(A) + P(B) 

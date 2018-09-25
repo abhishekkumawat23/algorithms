@@ -1,0 +1,48 @@
+Question:
+Imagine you have a call center with three levels of employees: respondent, manager and director.
+An incoming telephone call must be first allocated to a respondant who is free.
+If the respondent can't handle the call, he or she must escalate the call to a manager.
+If the manager is not free or not able to handle it, then the call should be escalate to a director.
+Design the classes and data structures for this problem.
+Implement a method dispatchCall() which assigns a call to the first available employee.
+
+Answer:
+Step 1: Define core objects
+Call
+Caller
+CallHandlerProgram
+JobTitle
+Employee
+Manager
+Respondent
+Director
+
+Step 2: Define relationships
+Call has caller
+Call has handler who is an employee
+Call has start time
+Call has end time
+CallHandlerProgram has list of employees
+Employee has jobTitle
+Employee has name
+Employee has age
+Manager is employee with jobTitle as Manager
+Respondent is employee with jobTitle as Respondent
+Director is employee with jobTitle as Director
+
+Step 3: Define actions
+Caller:
+makeCall - creates a call and connects the call. Once done, disconnects.
+
+Call:
+connect - ask call handler program to dispatch call.
+disconnect - disconnects the call.
+
+CallHandlerProgram:
+dispatchCall - dispatches a call to free employee, else puts call in queue replying call to wait
+assignCall - Keep on checking if employee got free or not. If yes, assign him the call.
+escalateCall - dispatches a call to free next level employee.
+
+Employee
+recieveCall - recieves call
+isFree - checks whether employee is free or not.
