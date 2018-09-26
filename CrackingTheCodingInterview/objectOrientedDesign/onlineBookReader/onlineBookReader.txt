@@ -1,0 +1,73 @@
+Question:
+Design the data structure for an online reader system.
+
+Answer:
+Assuming that on a computer the reader system is active.
+Thus at a time, only one user can be present on system and he can read only one book at a time.
+
+OnlineReaderSystem
+Library
+User
+Book
+Display
+Page
+
+OnlineReaderSystem has a library
+OnlineReaderSystem has an active user
+OnlineReaderSystem has an active book
+OnlineReaderSystem has a display
+OnlineReaderSystem has a userManager to manage the system.
+Library has map of books
+UserManager has map of users.
+Display has active book
+Display has active user
+Display has a page number
+Display has current page
+Book has list of pages
+Book has name
+Book has id
+Book has current page number
+Page has content
+
+OnlineReaderSystem:
+getActiveUser - gets active user
+getActiveBook - gets active book
+getDispay - gets display
+getLibrary - gets library
+getUserManager - gets user manager
+
+Library:
+searchBook - searches asked book and return it 
+addBook - adds book in library
+removeBook = removes book from library
+getAllBooks - returns all books list.
+
+UserManager:
+addUser - adds a user
+removeUser - removes a user
+findUser - finds a user
+
+Display:
+turnPageForward - turns page forward
+tunPageBackward - tunrs page backward
+refreshUsername - refreshes username display
+refreshTitle - refreshes title display
+refreshDetails - refreshes details display
+refreshPage - refreshes page display
+setActiveUser - sets active user
+setActiveBook - sets active book 
+
+Book:
+getName - return name of book
+getId - gets book id
+getPage - return asked page
+
+Page:
+getContent - gets page content
+
+User:
+getName - returns user name
+getUserId - gets user id
+getAccountType - gets account type
+setAccountType - sets account type
+renewMembership - renews membership

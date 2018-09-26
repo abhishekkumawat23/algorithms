@@ -1,18 +1,40 @@
 Question:
 Design a musical juke box using object oriented principles
 
-Answer:
-JukeBox has a user
-JukeBox has lot of CDs.
-It is using CDPlayer to play a CD.
-CD contains a playlist.
-CD can be created/deleted/updated by JukeBox.
-
 Step 1: Core objects
+Answer
 User
-JukeBox
 CDPlayer
 CD
-PlayList
-Song
-Artist
+JukeBox
+Playlist
+
+Step 2: relationships
+JukeBox has a user
+JukeBox has a cdPlayer
+JukeBox has a collection of cds.
+CDPlayer has cd
+CDPlayer has a playlist.
+Playlist has queue of songs
+CD has name
+CD has list of songs.
+
+Step 3: actions
+JukeBox:
+getCurrentSong - returns current song which is being played.
+setUser - sets the user for the jukeBox.
+changeCd-  Changes cd in cd player.
+
+CDPlayer:
+currentSong - return current song being played
+setCD - sets/change the CD
+startPlaying - starts playing the playlist
+stopPlaying - stops playing the playlist
+playSong - Plays the given song
+getPlaylist - returns the playlist
+
+Playlist:
+addSong - adds song in queue
+getNextSong - returns next song to be played
+poll - removes song from playlist
+isEmpty - returns of the playlist is empty or not.

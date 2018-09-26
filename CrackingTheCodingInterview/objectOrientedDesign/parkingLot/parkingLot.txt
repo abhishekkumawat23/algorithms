@@ -1,0 +1,40 @@
+Question:
+Design a parking lot using object oriented principles
+
+Answer:
+
+Vehicle
+VehicleSize
+Bus
+Car
+Motorcycle
+ParkingLot
+Level
+
+Vehicle has VehicleSize
+Vehicle has spots needed size.
+Vehicle has license plate
+Vehicle has parking spots.
+ParkingLot has levels
+Level has parking spots
+Level has floor number
+ParkingSpot has vehicle
+ParkingSpot has spotSize
+ParkingSpot has level
+ParkingSpot has spot number
+
+Vehicle:
+park - parks vehicle in its parking spot
+clearParking - clears the parking spot
+
+ParkingLot:
+findParkingSpots - finds parking spots for the given vehicle
+
+Level:
+findSpotsOfSize - finds continous spots of given size.
+availableSpots - return available spots
+
+ParkingSpot:
+markAvailable - Mark parking spot as available.
+isAvailable - Checks if parking spot is available.
+getSpotNumber - returns the spot number

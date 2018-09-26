@@ -1,0 +1,6 @@
+Question:
+Implement a NxN jigsaw puzzle.
+Design a data structure and explain and algorithm to solve the puzzle.
+You can assume that you have a fitsWith method which, when passed two puzzle edges returns true if the two edges belong together.
+
+Answer: 
