@@ -3,4 +3,37 @@ Implement a NxN jigsaw puzzle.
 Design a data structure and explain and algorithm to solve the puzzle.
 You can assume that you have a fitsWith method which, when passed two puzzle edges returns true if the two edges belong together.
 
-Answer: 
+Answer:
+In jigsaw, we need to place piece at correct position in correct orientation to fit.
+
+Puzzle has 
+Piece
+Edge
+Shape
+Orientation
+
+Puzzle has list of pieces yet to be solved
+Puzzle has array of array of solved pieces 
+Piece has four edges - left, top, right, bottom
+Piece has info
+Edge has Shape
+Shape has values - inner, outer, flat
+
+Puzzle:
+segregate - segregate pieces into corner pieces, border pieces and inside pieces.
+solve - solves the puzzle
+popPiece - finds piece from given pieceInfo, removes it and return it.
+
+Piece:
+isCorner - true is piece is corner piece
+isBorder - true if piece is border piece
+getTop - gets top edge
+getLeft - gets left edge
+getRight - gets right edge
+getBottom - gets bottom edge
+rotate - rotate the piece clockwise
+getNextPieceInfo - gets next piece info
+fitsWith - cheks if piece fits with given piece.
+
+Edge:
+isFlat - return if edge is flat or not

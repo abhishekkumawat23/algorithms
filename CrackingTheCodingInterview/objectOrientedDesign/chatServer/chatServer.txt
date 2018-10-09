@@ -1,0 +1,57 @@
+Question:
+Explain how you would design a chat server.
+In particular, provide details about the various backend components, classes and methods.
+What would be the hardest problems to solve?
+
+Important points:
+In this implementation, we will not be thinking about networking aspects.
+In actual, this is how we should implement chat server:
+1. A database will store permanent data like user list and chat archives.
+2. We can use SQL database but if we want scalability, we could use BigTable or a similar system.
+3. For communication between client and server, we can use any format like json, xml etc.
+4. Server can consist of set of machines.
+5. Data in memory needs to be replicate across machines for:
+   a. Minimizing lookups
+   b. preventing a single point of failure
+
+What problems would be the hardest to solve (or the most interesting)?
+1. How to know if someone is online: For this we need to continuously ping the client to know if he is available.
+2. Stale data: As data is on memory and database both, which data is correct? In addition, staleness increases as data is split across machines.
+3. Scaling server: On scaling server, concern of out-of-sync data increases.
+4. DoS attack (Denial of service): User can bombard multiple request causing DoS attack. How to prevent that?
+
+Core objects:
+Conversation
+PrivateChat
+GroupChat
+User
+UserManager
+RequestStatus
+AddRequest
+UserStatus
+Message
+
+UserManager:
+UserManager has map of users indexed with user id
+UserManager has map of users indexed with user name.
+UserManager has map os online users indexed with user id
+getUser - gets user from id
+getUser - gets user from name
+addUser - adds user
+addRequest - add request from `from` user to `to` user
+addRequestStatus - add request status
+
+User:
+User has map of users as contacts indexed by user id
+User has map of private conversations indexed by user id
+user has map of group conversations  indexed by group name
+User has userStatus
+sendAddRequest - request to add user
+receivedAddRequest - received add request
+removeAddRequest - removes add request
+sendPrivateMessage - sends message to a private conversation
+sendGroupMessage - sends group message to a private conversation
+setStatus - sets user status
+reviewPendingRequests - checks pending requests
+
+Check each class for remaining actions.

@@ -1,0 +1,61 @@
+Question:
+Imagine you are building some sort of service that will be called by up to 1000 client applications to get simple end-of-day stock price information (open, close, high, low).
+You may assume that you already have the data, and you can store it in any format you wish.
+How would you design the client-facing server that provides the information to client applications?
+You are responsible for the development, rollout, and ongoing monitoring and maintenance of the feed.
+Describe the different methods you considered and why you would recommend your approach.
+Your service can use any technologies you wish, and can distribute the information to the client applications in any mechanism you choose.
+
+In simple words, we have some data stored and we want to send this data to clients.  
+
+Answer:
+Step 1: Major features and use cases
+1. Get stock price data
+2. Query/search stock price data
+
+Step 2: Make reasonable assumptions
+1. We are creating system for 1000 applications but system will be scalable to support more applications.
+2. Assuming that we already have the data.
+
+Step 3: Design major components/flow without thinking scalability:
+
+Proposal 1: Text files
+1. We need to send the data to client which we have.
+2. We can simply store the data in text files and send the files to the user through ftp server.
+Benefits:
+1. Easy to implement
+2. Easy to maintain
+3. File backup can be taken easily.
+Problems:
+1. Client needs to write logic to parse the data for querying it.
+2. Server also needs to write parsing logic in case server needs to query data for anything like analytics.
+3. If in future data format changes, client/server needs to change the parsing logic.
+4. For data update, we need to create a new file and delete the old one. i.e. we need to manually handle things like updating, rollback etc.
+
+Proposal 2: SQL database
+1. Data can be stored in some database. Database not only provide storage, they give a way to query/search the data.
+2. We can use SQL database for it as its very simple.
+3. Clients will pass SQL queries to our service to query/get data. 
+4. We will validate the SQL query for security reasons as client can delete entire database using query.
+5. We will internally query SQL database using that query and then return the output which is a virtual table.
+Benefits:
+1. Data can be queried by both server and clients. Example: Return all stocks having an open price greater than N and a closing price less than M.
+2. New data can be added without effecting clients. (In case of new data, we need to change the schema and do porting though)
+3. Rolling back, backing up data and security can be provided by standard database features.
+4. As SQL query is standard, clients can easily integrate it in their applications.
+Problems:
+1. If in future data format changes, database schema needs to be changes and entire data needs to be ported to new schema.
+2. Validating SQL query can be complex. Valid user can delete a row and we might fail that query in validation.
+3. In addition to passing insecure SQL queries, client can pass very inefficient query to database causing server cost.
+4. SQL query not readable by humans.
+
+Proposal 3: XML files
+1. We can store files as XML files.
+2. We can send the xml file to the client.
+Benefits:
+1. There are existing tools to parse XML file. So client doesn't need to write its own.
+2. Readable by both humans and machines
+3. New data can be easily added in XML (given client parser logic doesn't error out on new data)
+Problems:
+1. Even if customer wants to query some part of data, server will send entire XML file.
+2. Client need to read entire XML to query even a small part of data.

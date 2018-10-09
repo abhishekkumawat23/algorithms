@@ -1,0 +1,37 @@
+Question:
+Explain the data structures and algorithms that you would use to design an in-memory file system.
+Illustrate with an example in code where possible.
+
+Assuming entry as base of file and directories
+
+Entry is an abstract class as it should be either file or directory.
+Entry:
+Entry has name
+Entry has size
+Entry has parent which is a directory
+Entry has createdTime
+Entry has lastUpdatedTime
+Entry has lastAccessedTime
+size - gets size of entry. It's abstract
+getParent - gets parent directory
+getCreatedTime - gets created time
+getLastAccessedTime - gets last accessed time
+getLastUpdatedTime - gets last updated time
+delete - deletes entry. returns false if unable to.
+getFullPath - gets full path of entry
+getName - gets name of entry
+changeName - changes name of entry
+
+Directory extends Entry:
+Directory has list of entries
+size - gets size of directory
+deleteEntry - deletes the child entry
+addEntry - adds entry in directory
+getNumberOfFiles - gets number of files.
+getEntries - gets entries of directory
+
+File extends Entry:
+File has content
+getContent - gets content
+setContent - sets content
+size - gets size

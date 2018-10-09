@@ -1,0 +1,46 @@
+Question:
+Othello is played as follows:
+Each othello piece is white on one side and black on the other.
+When a piece is surrounded by its oppenents on both the left and right sides,
+or both the top and botton, it is said to be captured and its color is flipped.
+On your turn, you must capture at least one of your opponent's pieces.
+The game ends when either user has no more valid moves.
+The win is assigned to the person with the most pieces.
+Implement the object-oriented design for othello.
+
+Answer:
+
+Game:
+Game has board
+Game has white score
+Game has black score
+Game has whitePlayer
+Game has blackPlayer
+play - starts game and returns the winner on game end.
+getWhiteScore - gets white score
+getBlackScore - gets black score
+getWhitePlayer - gets white player
+getBlackPlayer - gets black player
+winner - gets winner by comparing score
+
+Player:
+Player has color of piece
+playPiece - search a position where to put piece.
+
+Board:
+Board has array of array of pieces which in starting will be empty
+putPiece - puts a piece at i, j location. Flips colors if required
+flipColorsIfRequired - flips colors if required because of piece at given position.
+findNextValidPosition - finds next valid position for the player.
+
+Position:
+Position has x value
+Position has y value
+getX
+getY
+
+Piece
+Piece has color
+setColor - sets color
+getColor - gets color
+ 

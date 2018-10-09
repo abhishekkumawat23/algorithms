@@ -1,0 +1,104 @@
+Question:
+How would you design the data structures for a very large social network like facebook or LinkedIn?
+Describe how you would design an algorithm to show the shortest path between two people (e.g. Me -> Susan -> Jason -> You)
+
+Answer:
+Step 1: Make believe
+Temporary assumptions:
+1. Number of people on social network are very less and can fit in a single machine's memory.
+3. There is no failover of machine.
+4. Only one query is made for finding friend connection.
+
+Points:
+1. We will use graph as data structure as that's how social network is connected.
+2. This graph is unweighted undirected cyclic graph. Undirected because its a two way relationship between people.
+3. To find the shortest path, we will use bi-directional BFS search.
+
+Time: O(n + e)
+For sparse graph, e ~= n or e ~= 0; so time: O(n)
+For dense graph, e ~= n(n+1)/2,; so time: O(e)
+Its better than BFS becuase in BFS time is O(k^d) but in bi-directional BFS, time is 2*k^(d/2)
+shortestPath(person1, person2):
+  if person1 == person2
+    result.add(person1)
+    return result
+  p1Queue.add(person1)
+  visitedP1.add(person1)
+  previousP1.put(person1, null)
+  p2Queue.add(person2)
+  visitedP2.add(person2)
+  previousP1.put(person1, null)
+  intersectingPerson = null
+  while !p1Queue.isEmpty && !p2Queue.isEmpty
+    p1 = p1Queue.poll
+    intersectingNode = addFriendsInQueue(p1, p1Queue, visitedA, visitedB)
+    if intersectingNode != null
+      break
+    p2 = p2Queue.poll
+    intersectingNode = addFriendsInQueue(p2, p2Queue, visitedB, visitedA)
+    if intersectingNode != null
+      break
+  if intersectingNode == null
+    return result
+  node = intersectingNode
+  while node != null
+    result.addFirst(node)
+    node = previousP1.get(node)
+  node = previousP2.get(intersectingNode)
+  while node != null
+    result.addLast(node)
+    node = previousP2.gete(node)
+  return result
+addFriendsInQueue(p1, p1Queue, visistedA, visitedB):
+  for friend in p1.friends
+    if visitedB.containsKey(friend)
+      return friend
+    else if !visitedA.containsKey(friend)
+      p1Queue.add(friend)
+      visitedP1.add(friend)
+      previousP1.put(friend, p1)
+  return null
+Person:
+  name
+  list of friends
+  
+Step 2: Get real
+Issues in getting real
+1. We can't store millions users on one machine's memory
+2. Similar to shortest path, if user needs additional queries, we need to implement it and optimize it as we are not using any database.
+3. Data in machine's memory is volatile and can get lost on machine failover.
+4. Multiple queries will happen to find connections between different people.
+
+Step 3:
+Solutions:
+1. We can't store millions users on one machine's memory
+   a. We will use multiple machines to store user's data.
+   b. Problem is to think how to break this data.
+   c. We need to break data in such way that friends of a person are mostly in one machine.
+   d. To achieve this we can break data county wise, state wise, city wise as most of the friends of a user are in the city/state/country.
+   e. Every person will have list of friend ids. Actual frnds can be on some other machines.
+   f. We will have a wrapper machine which will contain a userToMachine mapping which will tell in O(1) that in which machine user is present.
+   g. From that machine we will get the user.
+   h. For this we will create a Server class, Machine class etc.
+2. Similar to shortest path, if user needs additional queries, we need to implement it and optimize it as we are not using any database:
+   a. SQL database doesn't help in finding shortest path using standard queries. So if all additional queries are like that only, no point in using SQL.
+   b. We can use graph NoSQL database which will give these graph queries as standard.
+   c. We can also use SQL only if additional queries are something which SQL standard queries can help with.
+   d. Database is meant not only for storage but also for querying. i.e. its a search engine as well. In this issue, we are thinking of database as search engine capability.
+3. Data in machine's memory is volatile and can get lost on machine failover.
+   a. We can persist data on disk by using some database like SQL or graph NoSQL database which will persist the data on disk.
+   b. In case we dont want to persist data on disk due to expensive I/O, we can store the data in memory as well, but graph NoSQL database is better choice due to its search engine capabilities as well.
+   c. In case data is in memory, we need to create backup on machine2 due to volatility.
+4. Multiple queries will happen to find connections between different people.
+   a. As multiple queries can be done on our server to find friend connection, we should think of some optimizations.
+   b. Batching:
+      i. While finding friend connection, we have to jump to another machine to get its friend. For every user that I/O operation is very expensive.
+      ii. So, we can get machine list of users friends. And for friends in same machine we will call at once to get all users.
+      iii. So if Person has friends in country1.city1, country1.city2 and country2.city1, only 3 I/O calls will happen to machines contianing users from these cities.
+   c. Caching:
+      i. From data analysis, we can know city affinity that cityA has more friends in cityB. So we can cache cityB users whenever queried so that we don't need to call cityB machine.
+      ii. If not city affinity wise, we can maintain LFU cache of other machines as well.
+   e. User with more friends of friends
+      i. While doing BFS, within a level we start from 1st user and go till end.
+      ii. We have high chances of finding person via the friend with more number of friends.
+      ii. We should use a priority queue instead of queue with priority based on number of friends. This should be done a particular level only.

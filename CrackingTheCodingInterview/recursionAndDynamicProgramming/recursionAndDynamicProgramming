@@ -1,0 +1,37 @@
+How to approach a recursion problem:
+1. Bottom-Up approach
+   a. We solve the problem for a simple case, like a list with only one element.
+   b. Then we figure out how to solve the subproblem for two elements, then for three elements and so on.
+   c. So here we build a solution from previously solved small problems.
+   d. This approach is usually very efficient.
+      Example for building solution for n, we start from 1, then 2.. and then n. So in one go we solve the problem.
+   e. Be aware of overlapping subproblems.
+      Example if n is made form n-1 and n-2, then we need to calculate n-2 for solving both n-1 and n.
+      So here we can store n-1 so that it can be reused next time instead of re-calculation. 
+   f. For Bottom-up approach, usually iterative solution is more intuitive.
+2. Top-Down approach
+   a. We divide a problem into sub problems
+   b. This approach is not that efficient in compare to bottom-up.
+      For finding n, we first break problem in n-1 and thus for breaking problem till 1, we iterate once and then to add it up again we traverse from 1 to n again.
+      So 2 iterations and also n space in stack to store the broken subproblems.
+   c. Sometimes this approach is the only option when you can't traverse from subproblem to problem.
+      Example singly link nodes.
+3. Half-and-Half approach
+   a. This approach falls either in top-down or bottom-up category.
+   b. Binary tree problems works with half and half approach. (For binary tree, its top down half and half approach). For other problems it can be half and half bottom up approach.
+   b. Merge sort is also example of half and half approach
+   
+Recursive vs iterative problems:
+1. Every recursive problem can be converted into iterative problem.
+2. Every recursive problem takes stack space.
+3. Converting a recursive problem to iterative might not need extra space, or might need stack space or might need queue space.
+4. Start thinking problem from bottom-up approach first because its efficient and its iterative version is more intuitive.
+5. If problem is difficult from bottom-up approach, then think top-down and half-half in recursive way. Recursive way can later be though to convert in iterative way.
+
+Dynamic Programming and Memoization:
+1. While solving top-down or bottom-up recursion, there might be multiple overlapping problems.
+2. If we store this overlapping problems, we can be very efficient.
+3. For top-down approach, storing is called memoization
+4. For bottom-up approach, storing is called dynamic programming.
+
+While approaching any problem, always try to convert it into tree.

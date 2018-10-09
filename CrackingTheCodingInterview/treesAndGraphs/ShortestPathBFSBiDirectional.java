@@ -72,7 +72,7 @@ public class ShortestPathBFSBiDirectional {
 	 *   while previousNode != null
 	 *     shortestPath.addFirst(previousNode)
 	 *     previousNode = previousA[previousNode]
-	 *   previousNode = previousB[intersectingNode] // Doing so as not to repeast intersectin node 2 times
+	 *   previousNode = previousB[intersectingNode] // Doing so as not to repeat intersection node 2 times
 	 *   while previousNode != null
 	 *     shortestPath.addLast(previousNode)
 	 *     previousNode = previousB[previousNode]

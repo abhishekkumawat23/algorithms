@@ -1,0 +1,30 @@
+Question:
+Design and implement a hash table which uses chaining (linked list) to handle collisions.
+
+Answer:
+We can't use Java linked list as it stores only value.
+In our case, we want to store key and value pair both.
+Balanced binary tree can also be used to handle collisions. 
+
+LinkedListNode
+LinkedListNode has key
+LinkedListNode has value
+LinkedListNode has next
+LinkedListNode has previous
+getNext - gets next
+setNext - sets next
+getPrevious - gets previous
+setPrevious - sets previous
+getKey - gets key
+getValue - gets value
+setValue - sets value
+
+HashTable:
+HashTable has data which is arrayList of LinkedListNodes
+HashTable has size
+put - adds key, value pair in hashTable. If key already present, updates it with new value.
+remove - remove key from hashTable.
+get - gets value of given key
+size - returns size of hashtable.
+containsKey - checks if key is present in hashTable or not.
+isEmpty - checks if hashTable is empty or not.

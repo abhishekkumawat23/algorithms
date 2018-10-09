@@ -1,0 +1,44 @@
+Question:
+Design and implement a text based minesweeper game.
+Minesweeper is a classic single player computer game where a NxN grid has B mines(or bombs) hidden across the grid.
+The remaining cells are either blank or have a number behind them.
+The numbers reflect the number of bombs in the surroinding eight cells.
+The user then unconvers a cell. If its a bomb, the player loses.
+If it is a number, the number is exposed.
+If it is a blank cell, this cell and all adjacent blank cells (up to and including the surrounding numeric cells) are exposed.
+The player wins when all non-bomb cells are exposed.
+The player cna also flag certain places as potential bombs.
+This doesn't affect game play, other than the user from accidently clicking a cell that is thought to have a bomb.
+
+Cell:
+Cell has x for x position
+Cell has y for y position
+Cell has value
+Cell has isBomb flag
+Cell has isExposed flag
+Cell has isGuess flag. Player can set it to true if thinks this cell is bomb.
+getValue - returns value
+expose - exposes the cell value
+isExposed - returns true if cell is exposed.
+isBomb - returns true if cell is bomb
+toggleGuess - change the isGuess value.
+isGuess - returns true is cell is guessed as bomb.
+getX - gets x position
+getY - gets y position
+
+Board:
+Board has array of array of cells
+Board has noOfUnexposedCells
+initialize - initialize all cells
+playCell - Plays the cell. If found bomb, send result as lost otherwise successful.
+toggleGuess(i, j) - sets the cell at i, j to be a bomb
+expandBlankAreas(i, j) - expand blank areas started from blank i, j position
+
+Game:
+Game has board
+Game has player
+startGame - starts the game in loop until lost or won
+
+Player:
+Player has name
+playCell  plays a cell

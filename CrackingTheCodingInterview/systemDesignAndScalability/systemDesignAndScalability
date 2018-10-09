@@ -1,0 +1,84 @@
+Design a system:
+1. List major features and use cases: Scope the problem and list out major features and use cases
+   Example: To design a TinyURL system, list of major features and use cases are:
+   a. Shortening a URL to a TinyURL
+   b. Retrieving the URL associated with a TinyURL
+   c. Analytics for a URL
+   d. Users accounts and link management
+2. Make reasonable assumptions: Assumptions are necessary to solve problem quickly. But make reasonable assumptions.
+   Examples of non reasonable assumptions:
+   a. System processes only 100 users a day.
+   b. We have infinite memory available in your server.
+   Example of reasonable assumptions:
+   a. Max one million new URLs per day supported
+3. Draw major components/flow without thinking scalability: 
+   a. Draw major components. Ignore scalability issues for now.
+      Example:
+      i. We have a frontend server that pull data from the backend's data store.
+      ii. We have another server that crawl the internet for some data.
+      iii.. We have another server that process analytics.
+   b. Walk through your system end to end to provide a flow.
+      Example: A user enters a new URL. Now where does the flow go?
+4. Identify the key issues: Identify the major challenges and issues in your system (including scalability issues)
+   Example:
+   a. Instead of one server for frontend, we might need set of servers for scalability. Same is case with backend data store, server that process analytics, server that crawls data etc.
+   b. There can be some urls which are very frequently accessed. In this case, we might want to store it in cache instead of continously hitting database.
+5. Redesign for the key issues: Once key issues are identified, its time to adjust your design with it. Sometime it can be major redesign os sometimes minor tweaking
+   Example: For frequent URLs, we can introduce a cache in design.
+   
+Design a part of system:
+1. Make believe: Assume that all data can fit on one machine and there are no memory limitations. Solve the problem now to get a general outline of the solution.
+2. Get real: Now think about how much data can fit in your machine. What problems will occur when you split your data.
+   Common problem to split the data are:
+   a. How to logically divide the data.
+   b. How one machine would identify where to look up a different piece of data.
+3. Solve problem: Think about how problems in Step 2 can be solved.
+
+Some considerations while designing a system: Think about following while designing a system:
+1. Failures: Think how your system can fail. Plan for it.
+2. Availability and reliability:
+   Availability is related to percentage of time the system is operational.
+   Reliability is probability that the system is operational for a certain unit of time.
+3. Read-heavy vs write heavy: Whether an application will do lot of reads or lots of writes impacts the design.
+   If it's write heavy, we could consider queuing up the writes.
+   If it's read heavy,  we might want to cache.
+4. Security: Security threats can be devastating for a system. Think about type of issues a system might face and design around those.
+
+Key concepts:
+1. Horizontal vs vertical scaling
+2. Load balancer
+3. Database denormalization and NoSQL
+4. Database partitioning(vertical split) vs database sharding(horizontal split)
+5. Caching
+6. Asynchronous processing and queues
+7. Networking metrics
+8. MapReduce
+
+TODO: Write properly
+Write mapReduce also
+
+Links:
+1. Scaling:
+https://blog.hartleybrody.com/scale-load/
+https://dzone.com/articles/component-load-testing
+2. SQL ACID, NoSQL and Hadoop (Examples of operational and analytical BigData), Cloud computing, MapReduce
+https://www.mongodb.com/nosql-explained
+https://www.thegeekstuff.com/2014/01/sql-vs-nosql-db/?utm_source=tuicool
+https://www.mongodb.com/big-data-explained
+https://www.mongodb.com/hadoop-and-mongodb
+3. Distributed processing frameworks like Spark and MapReduce
+https://www.mongodb.com/hadoop-and-mongodb
+4. Message Queue vs pub/sub message topic
+https://aws.amazon.com/message-queue/
+https://aws.amazon.com/pub-sub-messaging/
+5. Caching is better only when system is read heavy. In case its write heavy, we should use integrated caching of databases like NoSQL.
+6. Elastic search and underlying apache lucence
+   a. Can act as NoSql distributed database as it can store data and query data to search data.
+   b. Can act as only search engine which just queries data. Data can come from other database like mongodb.
+7. REST API, SOAP, soap uses expensive xml, sessions, session replication etc. How REST transfers state in every request, how it helps as there is no session affinity in server for a node.
+
+
+   
+  
+    
+   
