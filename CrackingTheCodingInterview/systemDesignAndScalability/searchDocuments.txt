@@ -48,9 +48,10 @@ Solutions:
 1. Millions documents can't be stored on one machine's memory
    a. Store documents in disk. Load only those documents in memory which we are reading.
    b. Store documents across various machines. We can store documents name starting from A on one machine, B on second machine etc.
+   c. To communicate between two machines for documents, we will use messaging queue or pub/sub messaging.
 2. Inverted index map might not be stored on one machine for millions of documents.
    a. As documents are now divided on machines, we can create and store inverted index map for those documents in that machine itself.
-3. Processing time will be huge create inverted index map and then find intersection of documents using that inverted index map.
+3. Processing time will be huge to create inverted index map and then find intersection of documents using that inverted index map.
    a. Due to dividing documents across various machines, we now need to do less processing.
    b. Still inverted index map is very heavy as it takes O(n*m') where m' is number of words in each document and n is no of documents.
    b. We can create inverted index map in parallel. Within a machine, few documents will be processed by one task, few other by another task etc.

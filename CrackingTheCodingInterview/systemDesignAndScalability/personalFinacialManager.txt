@@ -1,0 +1,67 @@
+Question:
+Explain how you would design a personal financial manager (like Mint.com).
+This system would connect to your bank accounts, analyze your spending habits, and make recommendations.
+
+Answer:
+
+Step 1: Scope the problem - Define major features and use cases
+1. User can signup account, log in, log out.
+2. User can add multiple bank accounts
+3. System will pull financial history from banks once account added.
+4. System will also pull financial history with particular time period interval.
+5. System will categorize financial data and label it. This system will categorize with some reliability and can be wrong at times.
+6. User can change the category of a transaction in case our system categorized it incorrectly.
+7. System will analyze categorized transactions and give recommendations like excedding budget, investment options etc.
+8. Email alerts will be sent to user
+
+Step 2: Make reasonable assumptions
+1. Adding and removing account is relatively unusual.
+2. The system is write heavy as there will be lot of new transactions in a day for each user.
+3. Bank will not push the data, we will pull it.
+4. Data will be pulled from bank on daily basis. Thus there can be staleness of a day.
+4. Alerts can be sent to user with a delay of 1 day.
+
+Step 3: Draw the major components/ Design flow
+Proposal:
+1. Bank data synchronizer:
+   a. Bank data synchronizer will pull data from bank
+   b. Data will be pulled on a daily period basis.
+   c. Data can also be pulled on a period specific to a user based on his past transactions frequency.
+   d. Data returned by this synchronizer are raw transactions. Store these data in SQL.
+2. Categorizer:
+   a. Categorizer will take the bank raw data and categorize with some reliability.
+   b. This categorizer will also run on daily basis as soon as data fetching from banks are done.
+   c. Data returned will be categorized transactions. Store these transactions in SQL as well.
+3. Budget analyzer:
+   a. Budget analyzer will take categorized transactions and stored old categorized transactions of a user and analyze it.
+   b. After analysis, analyzer will return recommendations for the user. Store these categorized transactions in SQL as well.
+4. Front end:
+   a. Front end will take categorized transactions to show transactions to the user. User can change category of any transaction.
+   b. Front end will also take recommendations for the user.
+   c. These categorized transactions and recommendations can be picked from cache or SQL.
+
+Step 4: Identify the key issues
+1. Data heavy system:
+   a. We can't pull data from bank, categorize it and analyze in request-response cycle.
+   b. So we will have a task queue which works on tasks asynchronously. Tasks can be pulling new bank data, re-analyzing budgets, categorizing new bank data, re-trying tasks that failed.
+   c. As few tasks can be important than others, we can set priority to tasks. But we will hav system that low priority task also gets executed sometime.
+2. Email system:
+   a. We can set a task on daily basis which picks all recommendations telling budget exceeding and mail those users about it.
+3. Lot of inactive users:
+   a. There can be users who just logged in few times and then are not active.
+   b. If we are pulling their bank data daily and analyzing them, then that's a waste of resources.
+   c. We can deprioritize their account such that instead of pulling their data daily, we pull their data on monthly basis and send them mail on monthly basis.
+4. Unnecessary write/read heavy system:
+   a. Synchronizer is writing raw data in SQL and categorizer is reading it.
+   b. In actual we only want categorized transactions and recommendations to be persisted.
+   c. We don't want to persist raw transactions. Problem with storing it in database is lot of joins to get data again which is expensive.
+   d. So, we can store the raw transactions in files grouped by seller (seller as directory)
+   e. Assuming that a seller sells a particular category of items only, we can apply that category to all transactions of that seller.
+   g. Re-group all the transactions by user.
+   h. Store these categorized transactions of users in database for that user.
+   i. Budget analyzer takes categorized transactions grouped by user from database.
+   j. Merge user transactions across categories and then update the recommenation of budget for that category.
+   k. Store the recommneded budget in database.
+   l. This way raw transactions are not stored in database.
+5. User changing categories:
+   a. As soon as user changes category, we will notify recommender to re-analyze and store the new data immediately.

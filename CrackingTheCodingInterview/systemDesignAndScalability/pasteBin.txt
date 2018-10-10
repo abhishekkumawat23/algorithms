@@ -1,0 +1,40 @@
+Question:
+Design a system like pasteBin, where a user can enter a piece of text and get a randomly generated URL for public access.
+
+Answer:
+
+Step 1: Scope the problem - Define features and use cases.
+1. User can write some content and then create a url.
+2. Content can't be changed once created.
+3. URL will expire if not used in last 15 days.
+4. User should not be able to guess then urls by content.
+5. The system has a frontend as well as an API.
+6. Analytics for each url can be seen by click stats link on that page.
+
+
+Step 2: Make reasonable assumptions
+1. There will be millions of urls and thus millions of documents.
+2. Lot of URLs will not be used.
+3. Some documents will be accessed more than others.
+
+Step 2: Draw the major components
+1. As we don't need to query within a document, doesn't make sense to store the document in database.
+2. We will store document as files. Problem is more like storing static files.
+3. Files can be stored in various servers.
+4. We will have a database which stores url to file location path.
+5. As we need url analytics, we will add table in database for every visit containing columns like timestamp, ip address, location etc.
+
+Step 3: Identify the key issues
+1. Some documents will be accessed more frequently:
+   a. For more frequent documents, we can store them in cache (LRU or LFU)
+   b. We dont need to invalidate the cache as document will never be changed.
+   c. Whenever url gets expired or cache reaches limit, then only we need to remove a url from cache.
+2. Database scaling:
+   a. As there are millions of data, we might need to scale database.
+   b. In that case we need to do database sharding. (We can do sharding in both SQL and NoSQL databases)
+   c. Sharding can be done on basis of hash(url)%N.
+   d. For url to file map, we dont even need to store in database. Our file server will be based on hash(url)%N.
+   e. The only problem in removing database is when we need to increase number of file servers.
+3. Generating random urls
+   a. We can use random GUID.
+   b. If for generated GUID, alrady file exists in database, then this means collision happened, so we will create new random GUID.

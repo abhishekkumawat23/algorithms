@@ -1,0 +1,45 @@
+Question:
+If you were designing a web crawler, how would you avoid getting into infinite loops?
+
+Answer:
+Step 1: Make believe
+Temporary assumptions:
+1. Number of links are limited
+2. Work will finish in some time without failover
+2. Process is fast for given number of pages.
+
+Proposal 1:
+1. Given link be stored in a queue
+2. Poll from queue and parse the link
+3. All links present in queue will be added in queue
+4. Repeat process
+Problems:
+1. Deadlocks will happen
+
+Proposal 2:
+1. Think of links as graph. Graph can be cyclic. Graph can be directed or undirected.
+2. We can traverse graph by marking visited nodes. Key will be link itself.
+3. For traversing graph, we internally use queue.
+4. We add element in queue only when its not already visited.
+Problems:
+1. Deadlock can still happen as link with different get parameters can point to same page.
+2. If we check the content as key for visited, then also issue as for same url random content generation is there.
+
+Proposal 3:
+1. Using content and link, we create a signature.
+2. We use priority queue
+3. We poll from queue and check whether with this signature how many links has already been visited. Set low priority to the link as per number of existing visits and add it back in queue
+4. If link is not visited yet, visit it and set visitedCount to 1.
+5. Set a min priority till where crawling will be done.
+
+Step 2: Get real
+Issues in getting real:
+1. Number of links to crawl is unlimited.
+   a. Parsed result of a link will be stored in database for persistence. It can be file system also.
+   b. Reason to add in database to enjoy its search engine capabilities as well.
+2. Work will take infinite time to complete and thus failover can happen
+   a. We need to persist the last accessed link in some other machine or file. So that we can resume work in case of failover.
+3. Crawling is not very fast for pages
+   a. We need to use parallel tasks here.
+   b. visited map will be shared across tasks.
+   c. Every task can maintain their own queue. Link will be added in it if not yet visisted.

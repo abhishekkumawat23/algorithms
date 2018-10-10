@@ -34,49 +34,142 @@ Design a part of system:
    b. How one machine would identify where to look up a different piece of data.
 3. Solve problem: Think about how problems in Step 2 can be solved.
 
-Some considerations while designing a system: Think about following while designing a system:
-1. Failures: Think how your system can fail. Plan for it.
-2. Availability and reliability:
-   Availability is related to percentage of time the system is operational.
-   Reliability is probability that the system is operational for a certain unit of time.
-3. Read-heavy vs write heavy: Whether an application will do lot of reads or lots of writes impacts the design.
-   If it's write heavy, we could consider queuing up the writes.
-   If it's read heavy,  we might want to cache.
-4. Security: Security threats can be devastating for a system. Think about type of issues a system might face and design around those.
+How to solve major issues:
+1. Finding issues: Following issues can happen:
+   a. Write heavy system
+   b. Read heavy system
+   c. Memory bottleneck
+   d. CPU bottleneck
+   e. Network I/O bottleneck
+   f. Disk I/O bottleneck
+   g. FailOver when data is in memory
+2. Try to do following always (not thinking scalability):
+   a. Caching: For read heavy operations:
+      i. Store results of common operations so you are not repeating work.
+      ii. If data already present in cache, use it (staleness will come into picture here)
+   b. SQL Database denormalization: For read heavy operations
+      i. Save expensive join operations by doing denormalization.
+      ii. We need to pay the cost of having redundant data due to denormalization.
+      iii. Every time redundant data changes, we need to update the redundant data as well.
+      iv. Do this only when data to be denormalized is not write heavy but read heavy due to join operation.
+   c. SQL vs NoSQL - decide which database to use
+      i. SQL has structure, constraints, follows ACID(Atomicity, Consistency, Isolation, Durability) rules.
+      ii. Thus SQL is slow. Example Joins are very slow
+      iii. In addition SQL is not easily scalable. Still SQL can be scaled.
+      iv. So if our data has some structure and constraints to follow and it needs ACID rules (like banking system), then we should use SQL.
+      v. But if data has no structure, we need fast responses, we need to scale easily, use NoSQL.
+      vi. NoSQL follows CAP(consistency, availability, partitioning) theorem. As per this all three can't be achieved together.
+      vii. Most of the NoSQL databases loosens consistency to achieve availabilty, partitioning.
+   d. MapReduce and file system to avoid database at all:
+      i. There can be situation when we don't need to store some data in database.
+      ii. Storing data in file and then using MapReduce is way fast to solve the problem.
+      iii. In actual using MapReduce is similar to using NoSQL hadoop database as it internally does same thing.
+   e. Batching: For write heavy operations
+      i. For write heavy operations, we can store those operations in memory.
+      ii. After some time duration, we can push the data in batch.
+      iii. Stale problem occus here. So, do this only when stale data is not an issue.
+   f. Asynchronous processing for expensive operations: Avoid expensive operations in request-response cycle. It should be done asynchronously. 
+   g. HTTP caching: Don't make client request things from server which client already has like html, css, javaScript.
+   h. Use REST API to avoid sessions
+      i. Follow REST API model so that we dont store any session in server.
+      ii. Thus we save session memory from server.
+      iii. In addition, now there is nothing like session affinity, so now request can go to any server.
+   i. Use CDN (content delivery network)
+      i. For static files like html, css, javaScript, pdf, img etc, use static server.
+      ii. For queries which don't need dynamic content, request will not even reach our web server.
+      iii. CDN can have multiple servers geographically so that static content can be served very fast. 
+   j. Decrease network I/O, Disk I/O:
+      i. Reduce number of machine to machine changes, network changes, disk reads etc.
+   k. Data replication to prevent failover:
+      i. When machine fails, its memory data can get lost.
+      ii. We can take backup of machineA in machineB and so on to prevent data loss.
+3. Try to do following always (thinking scalability)
+   a. Web server scaling:
+      i. In web server, there should be only request-response serving task.
+      ii. No expensive operation should be present in web server.
+      iii. Expensive operations should be done by separate cluster of machines asynchronously which is `expensive work processor` machines.
+      iv. We should scale out web server horizontally.
+      v. Loadbalancer can decide which server to send a particular request.
+      vi Loadbalancer can decide this based on round robin or based on hash(requestUrl)%N or any method which suites best to application.
+   b. Expensive work processor scaling:
+      i. This cluster machine should work asynchronously.
+      ii. Once work is done it will store the response in its own cache.
+      iii. Whenever a request comes to it, it will always give the data from cache. Staleness will occur because of this.
+      iv. There should be a mechanism to invalidate data or autoexpiry for cache to get new data on expiry/invalidation
+      v. Request will come to a machine based on round robin or hash(request)%N or whatever suites best.
+   c. Database sharding/partitioning:
+      i. Vertical partitioning: Usually done by SQL.
+      ii. Key/hash based: Here number of nodes should be fixed. If we change them later, we need to reorganize entire database again.
+      iii. Directory based partitioning: Lookup table telling a particular data is in which database node.
+   d. Cache scaling:
+      i. Each machine will have a subset of cache. Division of cache can be done on basis of hash(key)%N where N is number of machines.
 
 Key concepts:
-1. Horizontal vs vertical scaling
-2. Load balancer
-3. Database denormalization and NoSQL
-4. Database partitioning(vertical split) vs database sharding(horizontal split)
-5. Caching
-6. Asynchronous processing and queues
-7. Networking metrics
-8. MapReduce
-
-TODO: Write properly
-Write mapReduce also
-
-Links:
 1. Scaling:
-https://blog.hartleybrody.com/scale-load/
-https://dzone.com/articles/component-load-testing
-2. SQL ACID, NoSQL and Hadoop (Examples of operational and analytical BigData), Cloud computing, MapReduce
-https://www.mongodb.com/nosql-explained
-https://www.thegeekstuff.com/2014/01/sql-vs-nosql-db/?utm_source=tuicool
-https://www.mongodb.com/big-data-explained
-https://www.mongodb.com/hadoop-and-mongodb
-3. Distributed processing frameworks like Spark and MapReduce
-https://www.mongodb.com/hadoop-and-mongodb
-4. Message Queue vs pub/sub message topic
-https://aws.amazon.com/message-queue/
-https://aws.amazon.com/pub-sub-messaging/
-5. Caching is better only when system is read heavy. In case its write heavy, we should use integrated caching of databases like NoSQL.
-6. Elastic search and underlying apache lucence
-   a. Can act as NoSql distributed database as it can store data and query data to search data.
-   b. Can act as only search engine which just queries data. Data can come from other database like mongodb.
-7. REST API, SOAP, soap uses expensive xml, sessions, session replication etc. How REST transfers state in every request, how it helps as there is no session affinity in server for a node.
-
+   a. https://blog.hartleybrody.com/scale-load/
+   b. https://dzone.com/articles/component-load-testing
+2. SQL, NoSQL:
+   a. NoSQL database types:
+      i. Document databse: Example mongoDB
+      ii. Graph stores: to store social media connections. Example: Giraph
+      iii. key-value store: Can be used for caching. Example: Redis
+      iv. Wide column store: Entire column is stored together. Example: Cassandra
+   b. Benefits of NoSQL:
+      i. Changing data be it structured, semi-structured, unstructured can be added. In SQL we need to port entire database if update the structure
+      ii. Auto sharding
+      iii. Replication to precent failover
+      iv. Integrated caching: Thus helps in write heavy applications by writing in cache and in some time period storing in database. But this effect consistency.
+      v. Instead of SQL queries, it directly supports object oriented APIs.
+      vi. Can handle big data.
+   c. Problem with NoSQL databases:
+      i. ACID transactions are not followed. NoSQL works on CAP theorem.
+      ii. Not very consistent. You can get stale data.
+   d. Links:
+      i. https://www.mongodb.com/nosql-explained
+      ii. https://www.thegeekstuff.com/2014/01/sql-vs-nosql-db/?utm_source=tuicool
+3. Big data, hadoop, MapReduce, mongoDB, cloud computing distributed processing frameworks
+   a. Big data:
+      i. High in volume
+      ii. High in velocity
+      iii. Diverse in variety. Example not only string, int, data etc, this data has audio, video, log files, unstructured text etc. 
+   b. Big data technologies:
+      i. Operational: Example MongoDB NoSQL database. Fast, low latency, 
+      ii. Analytical: Example MapReduce, Hadoop. Slow, high latency
+   b. Cloud computing:
+      i. cloud computing is set of software and computing products that are sold as a service
+      ii. Infrastructure as a service is a type of cloud computing in which on demand processing, storage, network resources are provided.
+   c. MongoDB with hadoop:
+      i. Mixing MongoDB with hadoop, we can achieve efficiecny and ease if use by mongoDB and analytical complex capabilites using hadoop
+   d. Hadoop
+      i. Hadoop is a database so it has both storage and search engine capabilities.
+      ii. It uses distributed processing framework like MapReduce, Spark for search engine capabilities.
+   e. Links:
+      i. https://www.mongodb.com/big-data-explained
+      ii. https://www.mongodb.com/hadoop-and-mongodb
+4. Elastic search and apache lucence
+   a. Elastic search can act as NoSQL database as it has both data storage and search engine capabilities.
+   b. but elastic search is more famous for search engine capabilities.
+   c. We can use mongoDB for storage and elastic search for adbvanced search engine capabilities.
+   d. Elastic search is based on apache lucence full text search.
+   e. it indexes based on inverted index map.
+   f. i.e. for a document, it contains inverted index map from word to document. Thus we can easily do a full text search quickly as inverted index map is already created while insertion.
+5. Message queue vs pub/sub message topic:
+   a. When scaled out, machines needs to talk to each other.
+   b. For inter node communication between server nodes, we can use message queue or pub/sub message topic.
+   c. use message queue for one to one communication.
+   d. use pub/sub message topic for one to many communication. 
+   e. Links
+      i. https://aws.amazon.com/message-queue/
+      ii. https://aws.amazon.com/pub-sub-messaging/
+6. REST, SOAP
+   a. SOAP needs contract on both side.
+   b. SOAP uses XML which is expensive
+   c. REST (Respresentational state transfer) says a reuest should be stateless.
+   d. Client should store all state information and should transfer to server in every request.
+   e. Server will not hold any session dats in REST case.
+   f. Use http methods for actions: Get for get, Post for create, put for updateOrCrate, delete for delete.
+   g. Don't use get for deleting something. For deleting use delete http method.
+   h. Link: https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9 
 
    
   

@@ -1,0 +1,86 @@
+Question:
+Imagine a web server for a simplified search engine.
+This system has 100 machines to respond to search queries, which may then call out using processSearch(string query) to another cluster of machines to actually get the result.
+The machine which responds to a given query is chosen at random, so you cannot guarantee that the same machine will always respond to the same request.
+The method processSearch is very expensive. Design a caching mechanism to cache the results of the most recent queries.
+Be sure to explain how you would update the cache when data changes.
+
+Answer:
+
+Step 1: Scope the problem
+Our system should do following:
+1. Efficient lookup for a given key
+2. Removing least recently data when cache is full and new data to cache comes.
+3. Update/clear cache when query result changes.
+
+Step 2: Make reasonable assumptions:
+1. The number if queries we want to cache is large (in millions)
+2. Most popular queries are extremely popular, such that they always appear in the cache.
+3. Our cache data can be 1 hour stale
+
+Step 3: Draw major components and flow (without thinking scalability)
+Designing cache for a single system should be as follows:
+1. We are implementing LRU (last recently used) eviction system. We can also use little complex but more useful LFU(least frequently used) cache as well.
+2. We should get cached value in O(1) given a key
+3. Whenever a cache is hit, move that cache to the front of the list in O(1)
+4. Whenever cache is full and new data comes to cache, we will remove the last element of list (as it's least recently used). This should happen in O(1).
+5. We should be able to update/remove a cache in O(1). This is required whenever cache gets invalidated or expired.
+
+Proposal 1:
+1. Whenever a cache needs to be added, add it in front of a doubly linked list. This linked list node should also be added in a hashMap.
+2. So given a key, we can get linkedList node in O(1) and once we node access in doubly linked list, we can do all operations like insert, delete, update, move in O(1)
+3. Whenever a cache is hit, we get the cache from hashMap and then move that node to front in linked list.
+4. Whenever cache is full and we have new data to cache, we remove the last node from linkedList. From removed node, we get key and using that key we remove the node from hashMap as well. 
+5. Whenever cache expiry happens, we remove the node from hashMap using key. We also remove that node from linkedList.
+6. We can update the cache value as well by simply changing the content of node.
+7. How we will know that cache is invalidated: We can have a auto-expiration of lets say 1 hour. In that case, every hour we will invalidate the cache.
+Problems:
+1. We can have staleness of 1 hour in data as we are expiring cache after one hour.
+2. We are unnecessarily expiring data even though it might be invalid.
+
+Node:
+  key - its a query
+  value - its response of that query
+  Node prev
+  Node next 
+Cache:
+  limit = 10
+  Node head, tail
+  HashMap<String, Node> map
+  size = 0
+  insertOrUpdate(query, value):
+    if map.containsKey(query)
+      node = map.get(query)
+      node.value = value
+      moveToFront(node)
+    else
+      node = new Node(query, value)
+      moveToFront(node)
+      map.put(query, node)
+    if size > limit
+      map.remove(tail.query)
+      removeFromLinkedList(tail)
+  get(query)
+    if map.containsKey(query)
+      node = map.get(query)
+      moveToFront(node)
+      return node.value
+    return null
+    
+Step 4: Identify the key issues (thinking scalability)
+There are following issues in above design:
+1. Query can come to any machine. So where to store this cache?
+2. If cache is distributed, how cache distribution will work
+
+Step 5: Redesign
+New changes in design:
+1. Each machine will store a segement of cache.
+2. We can do something like hash(query)%N which will give us the machine where the query might be cached for the query.
+3. So whenever a query  comes to machine i, we will find where the query might be cached from hash. Lets say its machine j.
+4. So, machine i will transfer query to machine j which will return the cache value if present in its cache.
+5. If value is not cached in machine j, machine j will call processSearch and then cache its response.
+6. Machine j will send response to machine i which will send the response to client
+Further optimizations:
+1. Currently in question we are said that query can come on any machine.
+2. If we can change such that a query will come on machine according to hash(query)%N, then we have cache in that same machine as well. So our machine jump will be less saving our I/O.
+ 

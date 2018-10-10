@@ -1,7 +1,0 @@
-Question:
-If you were designing a web crawler, how would you avoid getting into infinite loops?
-
-Answer:
-Step 1: Make believe
-Temporary assumptions:
-1. 

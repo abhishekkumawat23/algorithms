@@ -1,0 +1,35 @@
+Question:
+You have 10 billion URLs. How do you detect the duplicate documents?
+In this case, assume "duplicate" means that the URLs are identical.
+
+Answer:
+Step 1: Make believe
+Temporary assumptions
+1. There is no failover of machine
+2. URLs can fit on one single machine
+3. HashSet can be stored on one machine.
+
+Proposal 1:
+1. If url is not present in set, add in set
+2. If url is present in set, then add that url in duplicate urls.
+
+Step 2: Get real
+Issues in getting real:
+1. Machine will failover causing data loss
+2. We can't store these many urls in one machine
+3. HashSet can't be stored on one single machine
+
+Step 3:
+Proposal 1: Disk storage:
+1. We will store all links in disk.
+2. For 10 billion documents, assuming 100 characters for each link and each char of 4 bytes its 4000 GB.
+3. We will store links in files with each file of size 1 GB. Thus there will be 4000 files.
+4. For each file, load it in memory and create a hashset of duplicates.
+5. As this hashset needs to be in memory for all files as duplicate xan be in any file, hashset can grow up to 4000 GB which is a problem.
+6. So we store the data in disk smartly, we store the urls of same hash in one file and urls of different hash in different file.
+7. We can do something like hash(url)%4000 to get the hash of url and we can store that link in file named with that hash.
+8. We can use multi-threading to speed up the process.
+
+Proposal 2: Multiple machines:
+1. We can store these above files of 1 GB each (containing URLs of same hashes) in one machine's memory. Another file in another machine's memory.
+2. Benefit of this appraoch is we can do parallel processing. We can compute all 4000 machines urls together. 

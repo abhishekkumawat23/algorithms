@@ -1,0 +1,70 @@
+Question:
+A large eCommerce company wishes to list the best selling products, overall and by category.
+For example, one product might be #1056th best-selling product overall but the #13th best-selling product under sports category and #24th best selling product under safety category.
+Describe how would you design the system
+
+Answer:
+
+Step 1: Scope the problem
+1. We will show the best selling products of last week.
+2. Product can be in multiple categories but there are no sub-categories.
+
+Step 2: Make reasonable assumptions
+1. Data can be old up to 1 hour for most popular items.
+2. Data can be old up to 1 day for less popular items.
+3. Data is structured and Database scaling is not required
+
+Step 3: Draw the major components
+Proposal 1:
+1. Product system is already present which is storing product sell information in SQL database.
+2. SQL Database helps in this scenario as we majorly need sorting here which is supported by SQL query (i.e. SQL database search engine)
+3. Every hour we will pull sales data from db by category, compute the total sales in last weeks, sort it and store it in cache called sales rand data cache
+4. Front end pulls sales rank data form this cache.
+5. For getting category rank, its easy as we caches stores sorted category data.
+6. For showing best selling overall, we need to do N way merge for every request which is expensive.
+7. For this, we will store one more cache with sorted overall data.
+Benefits:
+1. Request response cycle is not doing heavy work.
+2. Once analysis done for a category, we are not doing for another hour. Thus saving system resources.
+Problems:
+1. Staleness of 1 hour will be present
+2. We are doing processing every hour for less popular items also. We can wait for one day for those
+3. We are storing 2 caches once for overall data and one for category wise sorted data.
+
+Step 4: Identify key issues
+1. Analytics are expensive. Every hour, we are getting sales data for a week, computing total sales of a product in last week, sorting it. This is being done every hour which is very expensive.
+   a. We will create one more table in database which stores total sales count info of a product for last week from monday to sunday.
+   b. table will have columns, prodId, total, mon, tues, wwed, thurs, fri, sat, sun
+   c. As soon as any sales happen, in addition to sales system adding that data in database, it will also increment the count in new table for that product for respective day.
+2. New table is write heavy 
+   d. Problem in this is that for every sale, our table will get updated. Thus our table is very very write heavy.
+   e. To solve it, we can write sales data in a cache instead of directly adding in db table.
+   f. At end of every hour, we can write data from cache into table in one go.
+   g. Now our table is not write heavy and storing total computation info.
+   h. At end of every hour, we just need to get the all products from table and sort it to get the overall rank.
+3. Joins are expensive
+   i. To get category rank, we need to join our table with the table mapping product with category.
+   j. Joins are very expensive. So we can add category add additional column in our table. This is denormalization.
+   k. Problem with denormalization is that whenever category of product changes, we need to update original table and this table. Also, there is duplication of data as well. For every category, product is duplicated.
+   l. In our case, as product category will be changes rarely, we can do this.
+4. Database queries might still be expensive
+   m. Even after doing all optimizations, we the queries and writes can be very expensive (ad we need to sort data).
+   n. So we can think of not using SQL database at all as we can't scale it.
+      i. We can use scalable database like NoSQL
+      ii. or we dont use db at all and implement NOSQL db functionality by ourselves.
+      iii. In our case hadoop is the best db to use as its analytics db.
+   o. We have to solve two problems if we are not using db. Storage and search engine capabilities of db.
+   p. We can use text files for storage. For every purchase we will create text file. We will just write product id and time stamp in it.
+   q. For search engine capabilities, we can use MapReduce.
+   r. For MapReduce, we will create directory for each category. Product belonging to catA and catB will be stored in both catA and catB folder.
+   s. By doing, this we are having redundancy (in database redundancy is avoided by normalization but we need to pay price of joins)
+   t. We will run mapReduce to merge the purchases of same product for a given duration in same file. File will have total count.
+   u. For getting best selling products for a category, we need to sort the directory based on total count.
+   v. Problem is with getting overall ranking. There are 2 solutions to it.
+      i. Treat general category as one more directory. Every product will go in that directory as well. This will double up our storage. OR,
+      ii. Do N way merge to get the overall rank.
+   w. All this MapReduce thing will happen every hour for that time duration and update it in cache.
+   x. As we can delay updating the less frequently products for one day. We can optimize N way merge.
+   y. N-merge will merge category best selling in pairs of 100 in every hour. Next 1000 will have update period of 2 hours and so on.
+   z. With pair merge, we will have little error introduced in overall ranking but we are ok with that.  
+2. 
