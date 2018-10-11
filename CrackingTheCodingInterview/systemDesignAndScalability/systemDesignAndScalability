@@ -143,7 +143,11 @@ Key concepts:
    d. Hadoop
       i. Hadoop is a database so it has both storage and search engine capabilities.
       ii. It uses distributed processing framework like MapReduce, Spark for search engine capabilities.
-   e. Links:
+   e. MapReduce:
+      i. In mapreduce, there is map step and there is reduce step.
+      ii. map step return a key value pair for an input
+      iii. reduce step reduces multiple value for a key to a single key value pair.
+   f. Links:
       i. https://www.mongodb.com/big-data-explained
       ii. https://www.mongodb.com/hadoop-and-mongodb
 4. Elastic search and apache lucence
