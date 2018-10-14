@@ -1,0 +1,33 @@
+Common sorting algos
+1. Bubble sort
+2. Selection sort
+3. Merge sort
+4. Quick sort
+5. Radix sort
+
+Important points:
+1. Stable vs non stable
+   a. Bubble sort, insertion sort, merge sort, tim sort, count sort, radix sort are stable sort
+   b. Selection sort, quick sort, heap sort are unstable sort.
+2. Stable sorts make adjacent swaps/move and thus stability can be maintained. Unstable sorts make non-adjacent swaps/move and thus can't be stable.
+3. For a random array, insertion sort > selection sort > bubble sort in preference.
+   a. Bubble sort is swap heavy. Insertion sort is shift heavy. Selection sort is comparison heavy. swap > shift > comparison
+   b. Insertion stops as soon as it finds insertion index. Also it stops as soon as array is sorted.
+   c. Bubble sort stops as soon as array is sorted.
+   d. Selection sort never stops. 
+4. Nearly sorted array: Insertion sort and bubble sort stops as soon as array is sorted. Thus both good for nearly sorted arrays.
+5. For linked list, insertion sort is way better than bubble or selection. Reason is insertion can be done in O(1) time. So we don't need to shift anything, its just comparisons.
+6. Quick sort is better than merge sort:
+   a. Merge sort uses O(n) space for helper array.
+   b. In addition, it copies array elements to helper array which is inefficient.
+7. Quick sort is not stable but is better than merge sort because of above reasons.
+8. Thus for primitive types, we should use quick sort and for reference types we should use merge sort.
+9. When number of elements are very less (<7), then we should use insertion sort instead of merge/quick sort as that's faster.
+10. Java uses TimSort for primitive types which is combination of insertion sort and quick sort. In this, for array of small size, insertion osrt is used and for array of large size, quick sort is used.
+11. For reference types, Java uses insertion sort + merge sort combination as we want stability in that case.
+12. Heap sort and quick sort are competitive.
+13. Quick sort is still better than heap because even if array is sorted, heap do 100% swapping but quick sort doesn't do any swapping. 
+   
+
+Common searching algos
+1. Binary search

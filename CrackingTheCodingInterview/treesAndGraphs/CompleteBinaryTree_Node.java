@@ -23,7 +23,7 @@ public class CompleteBinaryTree_Node<E> {
 	 * 
 	 * Important points:
 	 * 1. Find parent of last inserted element using binary number funda.
-	 * 2. If parent has both child filled, we get the nextparent using same binary number funda and add element as its left child.
+	 * 2. If parent has both child filled, we get the nextParent using same binary number funda and add element as its left child.
 	 * 
 	 * Pseudo code:
 	 * insert(e):

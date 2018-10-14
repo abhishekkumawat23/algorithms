@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Important points:
  * 1. Every complete binary can be represented using array or Node class.
  * 2. Every complete binary tree can be converted in array by rule that if parent index is i, then left and child index are 2i+1 and 2i+2.
- * 4. If Node class is used as implementation instead of array, then insertion in binary tree will take O(n) time for traversal.
+ * 4. If Node class is used as implementation instead of array, then insertion in binary tree will take O(logn) time for traversal.
  * 5. For Node class implementation, to have improved insertion time, we can maintain a queue of nodes which are not yet full. This queue can have max size of 2^h
  */
 public class CompleteBinaryTree<E> {
