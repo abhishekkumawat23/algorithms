@@ -1,0 +1,98 @@
+Four testing categories:
+1. Test a real world object
+2. Test a piece of software
+3. Write test code for a function
+4. Troubleshooting an existing issue
+
+Testing a real world object:
+Example: How to test a paperclip?
+Step 1: Who will use it?
+  a. By teachers to hold papers together
+  b. By artists, to bend into the shape of animal
+Step 2: what are the use cases?
+  a. Fastening paper together in a non-damaging(to the paper) way
+Step 3: What are the bounds of the use
+  a. Holding upto thirty sheets of paper without permanent damage to the paper.
+  b. Paper clip works in normal cold to hot temperatures but not extreme cold and extreme hot.
+Step 4: What are the stress/failure conditions:
+  a. Holding upto 50 sheets of paper with minimal permanent bending.
+  b. Above 50 sheets permanent bending of papers and small distort of paperclip
+  c. In extreme hot temperture, paperclip will expand and might bot be usable.
+  d. If we are testing a laundry, we can say that for more than 30 clothes, machine will not clean clothes properly.
+  e. Failures should not be unacceptable like for more than 50 clothes, machine will be on fire.
+Step 5: What are the test cases? How would you perform the testing
+  a. In real world, if we need to test paperclip for 6 months usage, we need to wait for 6 months.
+  b. While testing we can't wait that much but we want to simulate same conditions.
+  c. So what we can do is use paperclip as many times as it will be normally used in 6 months.
+  d. So simulating the real world, time, temperature we can test the object.
+  e. Testing should be done thinking of users, use cases, bounds, failures etc
+     i. Normal test cases
+     ii. Extreme test cases
+     iii. Illegal test cases
+     iv. Strange test cases
+  
+Testing a piece of software:
+Example: Test software for parental controls on web browser
+Step 1: Are we doing black box testing or white box testing?
+  a. In black box testing, we don't have internal implementation access. Thus we test E2E testing.
+  b. In white box testing, we have internal implementation access. Thus we can do thorough testing like unit testing, integration testing.
+Step 2: Who will use it?
+  a. Parents
+  b. Children
+  c. Guests
+Step 3: What are the use case
+  a. Parents:
+     i. Installing the software
+     ii. Updating controls
+     iii. Removing controls
+     iv. Personel internet usage
+  b. Children:
+     i. Accessing legal content
+     ii. Accessing illegal content 
+Step 4: What are the bounds of use
+  a. Should the illegal page be blocked or entire website be blocked.
+  b. Is the application suppose to learn by itseld what is good or bad?
+  c. What degree of false positive and false negative are acceptable?
+Step 5: What are the stress/failure conditions?
+  a. Application failure sholud not cause computer crash.
+  b. In failure, the application will permit a blocked sit OR ban an allowable site. 
+Step 6: What are the test cases? How would you perform the testing? 
+  a. According to black box or white box testing, write test cases.
+  b. Define test cases for manual testing and define test cases for automated testing.
+  c. Think test cases throughly
+  d. Example test case for allowable site, test case for illegal site, test case for allowable site with illegal pages etc.
+  e. Following should be thought for test cases:
+     i. Normal test cases
+     ii. Extreme test cases
+     iii. Illegal test cases
+     iv. Strange test cases
+
+Testing a function:
+Step 1: Define the test cases
+  a. Normal test cases
+  b. Extreme test cases like passing empty array, passing one element in array, passing large array
+  c. Illegal test cases like passing negative number, passing null value, passing different data type. etc
+  d. Strange test cases like passing already sorted array, array sorted in reverse order
+Step 2: Define the expected result
+  a. For every test case, define the expected result
+Step 3: Write test code
+  a. Write actual test method using asserts etc.
+  
+Troubleshooting questions:
+Example: You are working on the google chrome team when you receive a bug report: Chrome crashes on launch. What would you do?
+Step 1: Understand the scenario:
+  a. How long user is experiencing the issue?
+  b. Browser version? Operating system?
+  c. Does it happen consistently or flaky?
+  d. Is there any error report/logs
+Step 2: Break down the problem
+  a. Go to windows start menu
+  b. Click on chrome icon
+  c. Browser instance starts
+  d. Browser loads settings
+  e. Browser issues HTTP request for homepage
+  f. Browser gets HTTP resposne
+  g. Browser parses webpage.
+  h. Browser displays content.
+Step 3: Create specific, manageable tests
+  a. Set of tests which we want user to perform on to repro the issue.

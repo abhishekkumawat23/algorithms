@@ -1,0 +1,8 @@
+Question:
+In Java, does the finally block get executed if we insert a return statement inside the try block of try-catch finally?
+
+Answer:
+Finally block is always always called even if return statement is present in try block. It is called in case of continue, break etc also.
+Only cases where finally can't be called are:
+1. If the java virtual machine exits during try/catch block execution.
+2. If the thread which is executing during the try/catch block gets killed.

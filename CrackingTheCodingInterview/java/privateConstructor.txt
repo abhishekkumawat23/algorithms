@@ -1,0 +1,5 @@
+Question:
+In terms of inheritance, what is the effect of keeping a constructor private?
+
+Answer:
+1. Making constructor private, class can be accessed by its inner class and its parent inner class.

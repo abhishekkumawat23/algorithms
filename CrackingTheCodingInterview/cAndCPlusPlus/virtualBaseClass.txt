@@ -1,0 +1,14 @@
+Question:
+Why does a destructor in base class needs to be declared virtual?
+
+Answer:
+Example:
+Parent p = new Child()
+p->f()
+delete p;
+
+If f() is defined virtual in Parent, then p->f() will call function of Child.
+
+Now if we do delete p, then it will call destructor but of which class?
+If destructor is not defined as virtual, it will call destructor of Parent and thus resources of child will not free up.
+So, we need to define destructor of base class as virtual if class has virtual function(s).

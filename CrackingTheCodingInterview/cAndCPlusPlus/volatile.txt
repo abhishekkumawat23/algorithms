@@ -1,0 +1,13 @@
+Question:
+What is the significance of keyword `volatile` in C?
+
+Answer:
+1. If a variable is volatile, then this means that varibale can be changed by outside like another thread, operating system.
+2. As value can be changed unexpectedly by from anywhere, the compiler will therefore reload the value each time from memory whenever accessed.
+3. This means that the thread will not store a local copy of the object and will refer to main memory every time object is accessed.
+4. Example:
+   a. Volatile integer: int volatile x; OR volatile int x;
+   b. Pointer to volatile integer: volatile int * x; OR int volatile * x;
+   c. Volatile pointer to non-volatile integer: int * volatile x;
+   d. Volatile pointer to volatile integer: int volatile * volatile x;
+5. Volatile variable are used when multil-threaded programs have global variables and any thread can modify these shared variables. 

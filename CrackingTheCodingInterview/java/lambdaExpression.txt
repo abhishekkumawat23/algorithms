@@ -1,0 +1,67 @@
+Question:
+There is a class Country that has methods getContinent() and getPopulation().
+Write a function int getPopulation(List<Country> countries>, String continent)
+that computes the total population of a given continent, given a list of all countries and the name of a continent.
+
+Answer:
+
+Without lambda:
+int getPopulation(countries, continent):
+  population = 0
+  for country in countries
+    if country.getContinent().equals(continent)
+      population += country.getPopulation()
+  return population
+
+With lambda:
+int getPopulation(countries, continent):
+  // Filter countries
+  Stream<Country> countriesOfContinent = countries.stream().filter(country -> {return country.getContinent().equals(continent)})
+  
+  // Convert to list of populations
+  Stream<Integer> populations = countriesOfContinent.map(country -> country.getPopulation())
+  
+  // Get population
+  population = populations.reduce(0, (a, b) -> a + b)
+  return population
+  
+With lambda efficient:
+int getPopulation(countries, continent):
+  // List of populations
+  Stream<Integer> populations = countires.stream().map(country -> country.getContinent().equals(continent) ? country.getPopulation() : 0);
+  
+  // Get population
+  population = populations.reduce(0, (a,b) -> a + b)
+  
+Important points:
+1. Lambda function examples: 
+   a. ((a, b)-> print a + b)
+   b. (a -> print a + 2) 
+   c. (a -> return a + 2)
+   d. (a -> {return a + 2})
+   e. ((a, b) -> {return a + b})
+   f. ((a, b) -> {
+        print a - b
+        return a + b
+      })
+2. In Java 7, we used anonymous interface to add listeners. In Java 8, we can use lambda.
+   a. Anonymous function:
+      interface EventListener {
+        public void onEventListen(String value1, String value2);
+      }
+      addEventListener(EventListener listener)
+      addEventListener(new EventListener() {
+        public void onEventListen(String value1, String value2){
+          // Do something
+        }
+      })
+   b. As we saw, we are not creating class for interface. We are directly defining and using class with i.e. anonymous class.interface.
+   c. Lambda function:
+      interface EventListener {
+        public void onEventListen(String value1, String value2);
+      }
+      addEventListener(EventListener listener)
+      addEventListener((value1, value2) -> {
+        // Do something
+      })
+  

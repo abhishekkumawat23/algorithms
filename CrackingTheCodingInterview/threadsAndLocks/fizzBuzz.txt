@@ -1,0 +1,54 @@
+Question:
+In the classic problem FizzBuzz, you are told to print the numbers from 1 to n.
+However, when the number is divisible by 3, print "Fizz".
+When it is divisible by 5, print "Buzz".
+When it is divisible by 3 and 5, print "FizzBuzz".
+In this problem, you are asked to do this in a multi-threaded way.
+Implement a multi-threaded version of FizzBuzz with four threads.
+One thread checks for divisibility of 3 and prints "Fizz".
+Another thread is responsible for divisibility of 5 and prints "Buzz".
+A third thread is responsible for divisibility of 3 and 5 and prints "FizzBuzz".
+A fourth thread does the numbers.
+
+Answer:
+Logic without thread:
+fizzBuzz(n):
+  for i = 1 to n
+    if  i % 3 == 0 && i % 5 == 0
+      print "Fizzbuzz"
+    else if i % 3 == 0
+      print "Fizz"
+    else if i % 5 == 0
+      print "Buzz"
+    else
+      print i
+
+Logic with threads:
+FizzBuzzThread extends Thread:
+  static current = 1 // Current is shared across threads
+  static lock = new Object() // Static lock object
+  FizzBuzzThread(n, div3, div5, toPrint)
+    this.max = n
+    this.div3 = div3
+    this.div5 = div5
+    this.toPrint = toPrint 
+  run()
+    while true
+      synchronized(lock)
+        if current > max
+          return
+        if (current % 3 == 0) == div3 && (current % 5) == div5
+          print()
+        current++
+  print()
+    print(toPrint)
+NumberThread extends FizzBuzzThread
+  print()
+    print(current)
+fizzBuzz(n):
+  Thread[] threads = {new FizzBuzzThread(true, true, n, "FizzBuzz"),
+  					  new FizzBuzzThread(true, false, n, "Fizz"),
+  					  new FizzBuzzThread(false, true, n, "Buzz"),
+  					  new NumberThread(false, false, n)}
+  for thread in threads
+    thread.start()

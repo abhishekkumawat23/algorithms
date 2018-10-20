@@ -1,0 +1,12 @@
+Question:
+What are the different types of joins?
+Please explain how they differ and why certain types are better in certain situations?
+
+Answer:
+1. Joins are used to combine the results of two tables.
+2. To perform a join, each of the tables must have atleast one field that will be used to find matching records from the other table.
+3. Inner join: Result set contains data where the criteria match.
+4. Outer Join: Outer join will have inner join data and may also contain some records that have no matching record in the other table.
+   a. Left join: Result will contain all results from left table.
+   b. Right join: Result will contain all results from right table.
+   c. Full join: Result will contain results from both table.

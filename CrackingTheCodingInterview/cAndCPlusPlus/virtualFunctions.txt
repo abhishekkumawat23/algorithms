@@ -1,0 +1,11 @@
+Question:
+How do virtual functions work in C++?
+
+Answer:
+1. If there is any virtual function in class, a `virtual table` (or vTable) is created for class.
+2. The compiler adds a hidden `vptr` variable in every class which points to this vTable.
+3. This vTable stores addresses of virtual functions of this class.
+4. If a virtual function is not overriden in derived class, the vTable of derived class stores the address of the function in its parent class.
+5. The vTable is used to resolve the address of the function when the virutal function is called.
+6. Thus, dynamic binding in C++ is performed through the vTable mechanism.
+7. So when we assign Child object to Parent class pointer, the vptr variable points to the vtable of the derived class. 

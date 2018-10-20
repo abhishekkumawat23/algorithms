@@ -1,0 +1,14 @@
+Question:
+What's the difference between a thread and a process?
+
+Answer:
+Process:
+1. Process is an instance of a program in execution.
+2. A process is an independent entity to which the system resources (CPU time and memory) are allocated.
+3. Each process is executed in a separate address space, and one process can't access the variable and data structures of another process.
+4. If a process wishes to access another process' resources, inter-process communication have to be used. These  include pipes, files, sockets etc.
+
+Thread:
+1. A thread exists within a process and shares the process' resources (including its heap space).
+2. Multiple threads within the same process shares same process heap. This is different from processes, which cannot directly access the memory of other processes.
+3. Each thread still has its own registers and its own stack, but other threads can read and write the heap memory. 

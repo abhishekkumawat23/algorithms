@@ -1,0 +1,30 @@
+/**
+ * Write a function in C called my2Dalloc which allocates a two dimensional array,
+ * Minimize the number of calls to malloc and make sure that memory is accessible by the notation arr[i][j].
+ * 
+ * Important points:
+ * 1. We can store a array using a pointer.
+ * 2. So we can store 2d array using double pointer (pointer of pointer).
+ * 3. Aray should be stored in contigous block.
+ * 4. We will store all row pointer in starting and then each pointer will point to its inner array start.
+ */
+ 
+int** my2DAlloc(int rows, int columns) {
+    int header = rows * sizeof(int *);
+    int data = rows * cols * sizeof(int);
+    int ** arrPtr = (int **)malloc(header + data);
+    if (arrPtr == NULL) return NULL;
+    
+    int * buff = (int *) (rowPtr + rows);
+    for (int i = 0; i < rows; i++) {
+        arrPtr[i] = buf + i*cols;
+    }
+    return arrPtr;
+}
+
+void my2DDealloc(int** arrPtr, int rows) {
+    for (int i = 0; i < rows; i++){
+        free(arrPtr[i]);
+    }
+    free(arrPtr);
+}

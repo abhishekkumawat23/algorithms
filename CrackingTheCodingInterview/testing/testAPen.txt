@@ -1,0 +1,29 @@
+Question:
+How would you test a pen?
+
+Answer:
+This problem is of `testing a real world object` category.
+Step 1: Who are the users?
+  1. Children
+ 
+Step 2: What are the use cases
+  1. Drawing on clothes
+ 
+Step 3: What are the bound of the use
+  1. Pen marked on cloth should be washable
+  2. Pen should write properly on clothes
+  3. Pen should be non-toxic for children
+  4. Children can wrote on any surface (even though not intended)
+ 
+Step 4: What are the stress failure conditions 
+  1. Wall should not be permanently damaged once written on it (Permanent ink is also a failure)
+  2. If on same cloth written multiple times and washed, there will be little damage to the cloth
+  3. Pen might break on high force.
+  
+Step 5: What are the test cases?
+  1. Felt should have felt tip
+  2. Pen should have allowed color ink
+  3. Pen should be able to draw properly on clothing
+  4. Cloth should be washable after pen mark
+  5. Pen should be safe for children.
+  6. Writing on surface from pen

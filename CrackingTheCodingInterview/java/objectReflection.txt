@@ -1,0 +1,29 @@
+Question:
+Explain what object reflection is in Java and why it is useful?
+
+Answer:
+
+Example:
+Rectangle rectangle = new Reactangle(4.2, 3.9);
+Double area = rectangle.area();
+
+Getting above via reflection:
+// Get class definition
+Class rectangleDefinition = Class.forName("MyProj.Rectangle");
+// Get constructor definition
+Class[] doubleArgsClass = new Class[] {double.Class, double.Class};
+Constructor doubleArgsConstructor = rectangleDefinition.getConstructor(doubleArgsClass);
+// Create rectangle instance
+Object[] doubleArgs = new Object[] {4.2, 3.9};
+Rectangle rectangle = (Rectangle) doubleArgsConstructor.newInstance(doubleArgs);
+// Get method definition
+Method areaMethod = rectangeDefinition.getDeclaredMethod("area");
+// Call method
+Double area = (Double) areaMethod.invoke(rectangle);
+
+When reflection is useful:
+1. Observing and manipulating the runtime behavior of applications.
+2. Debugging or testing the programs as we have direct access to methods, constructors, and fields.
+3. Reflection can access methods even if private.
+4. When we don't know which method to call in advance. Example user passes name of method which to call. For simple scenarios this can be done using if else, but for complex if-statements will go very complex. Reflection is quite simple there.
+4. All debuggers, watchers etc use reflection internally.

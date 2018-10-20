@@ -1,0 +1,28 @@
+Question information:
+Database describes a apartment rental agency.
+
+Each apartment can have multiple tenants.
+Each tenant can have multiple apartments.
+i.e. Tenant and apartment has many-many relation.
+Each apartment belong to a building.
+Each building belongs to a complex.
+
+Based on info, Tables are:
+1. Buildings: BuildingId, BuildingName, ComplexId, Address
+2. Apartments: ApartmentId, UnitNumber, BuildingId
+3. Tenants: TenantId, TenantName
+4. Complexes: ComplexId, ComplexName
+5. TenantApartments: TenantId, ApartmentId
+6. Requests: RequestId, Status, ApartmentId, Description
+
+Question:
+Building #11 is undergoing a major renovation.
+Implement a query to close all requests from apartments in this building.
+
+Answer:
+update Requests
+set Status = 'Closed'
+where Request.ApartmentId in
+  (select ApartmentId
+  from Apartments
+  where BuildingId = 11)

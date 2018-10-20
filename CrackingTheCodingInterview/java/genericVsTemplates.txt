@@ -1,0 +1,14 @@
+Question:
+Explain the difference between templates in C++ and generics in Java.
+
+Answer:
+1. At compile time, Java code removes all types.
+      Example: ArrayList<String> list = new ArrayList<String>(); list.get(0) is converted to ArrayList list = new ArrayList(); (String)list.get(0)
+2. Thus Java generics are sometime called `syntactic sugar` as at run time, there is no generics.
+3. In C++, for every type, template is copied. Thus for every type, there is a separater class.
+4. This is the reason that in Java, static var is accessed by any instance if any type of a class. But in cpp, instances of a particular type of class share a set static vars.
+5. cpp templates can be applied on primitive types. But Java templates can't be applied on primitive.
+6. In Java, we can restrict the tempalte's parameter to be of certain type. Example <? extends CardGame>.
+7. In Java, type parameter can't be used for static methods and variables. in cpp, it can be. as these classes are different (different copy of templates).
+8. As java, generic is compile time, all instances of a generic class are essentially of same type. The type parameters are erased at runtime.
+9. in cpp, instance with different type parameters are different types. 

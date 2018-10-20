@@ -1,0 +1,20 @@
+Question:
+Compare and contrast a hash table and an STL map.
+How is a hash table implemented?
+If the number of inputs is small, which data structure options can be used insteda of a hash table.
+
+Answer:
+HashTable:
+1. Same as Java.
+2. Uses hash function to store key value pairs at particular index.
+3. Collisions are handled via linked list chaining.
+4. Insertion and lookup happens in amortized O(1) assuming less collisions.
+
+STL map:
+1. Balanced binary search tree.
+2. Insertions and lookup happens in O(logn)
+
+What can be used instead of a hashTable, if the number of inputs is small.
+1. HashTable is used because of O(1) time.
+2. So if we can't use hashTable, we should choose data structure which takes very less insertion and lookup time.
+3. Best match is STL map which takes O(logn) for these operations.

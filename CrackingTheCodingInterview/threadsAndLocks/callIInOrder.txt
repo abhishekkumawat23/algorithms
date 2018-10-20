@@ -1,0 +1,94 @@
+Question:
+Suppose we have the following code:
+public class Foo {
+  public Foo() { ... }
+  public void first() { ... }
+  public void second() { ... }
+  public void third() { ... }
+}
+The same instance of Foo will be passed to three different threads.
+ThreadA will call first, ThreadB will call second, ThreadC will call third.
+Design a mechanism to ensure that first is called before second and second is called before third.
+
+Answer:
+public class Foo() {
+  public ReentrantLock lock1, lock2;
+  public Foo() {
+    Lock lockB = new ReentrantLock();
+    Lock lockC = new ReentrantLock();
+    lockB.lock();
+    lockC.lock();
+  }
+  
+  public void first() {
+    // Write logic here
+    lockB.unlock();
+  }
+  
+  public void second() {
+    lockB.lock(); // wait for first to finish
+    // Write logic here
+    lockB.unlock();
+    lockC.unlock();
+  }
+  
+  public void third() {
+    lockC.lock(); // wait for second to finish
+    // Write logic here
+    lockC.unlock();
+  }
+}
+
+This above code will not work because the thread which locks the object can only unlock it.
+So instead of using locks, we will use Semaphore. Code will be exactly same.
+1. Semaphore is thread synchronization construct that can be used 
+   a. Either to send signals between threads to avoid missed signals
+   b. Or to guard a critical section like you would with a lock.
+   d. Semaphore implementation example:
+      public class Semaphore {
+        private int permits = 1;
+        
+        // Wait if permits are <= 0
+        public synchronized void acquire() {
+          if (permits <= 0) {
+            wait(); // This makes thread wait.
+          }
+          permits--;
+        }
+        
+        public synchronized void release() {
+          permits++;
+          if (permits > 0){
+            this.notify(); // This notifies all waiting threads.
+          }
+        }
+      }
+   e. Because of this notify mechanism, a thread which has not acquired the lock can release the lock.
+
+public class Foo() {
+  public Semaphore semA, semB;
+  public Foo() {
+    Semaphore semB = new Semaphore(1);
+    Semaphore semC = new Semaphore(1);
+    semB.acquire();
+    SemC.acquire();
+  }
+  
+  public void first() {
+    // Write logic here
+    semB.release();
+  }
+  
+  public void second() {
+    semB.acquire(); // wait for first to finish
+    // Write logic here
+    semB.release();
+    semC.release();
+  }
+  
+  public void third() {
+    semC.lock(); // wait for second to finish
+    // Write logic here
+    semC.unlock();
+  }
+}

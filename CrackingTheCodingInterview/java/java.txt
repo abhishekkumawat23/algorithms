@@ -1,0 +1,7 @@
+Important points:
+1. We can create functions without belonging to any class using lambda functions. This is the only current way where Java is functional programming.
+
+Overloading vs Overriding:
+1. Overloading: same name but differ in type or no of arguments
+2. Overriding: method shares same name and function signature as another method in its super class.
+

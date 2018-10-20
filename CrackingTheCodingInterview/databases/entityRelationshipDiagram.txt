@@ -1,0 +1,8 @@
+Question:
+Draw an entity-relationship diagram for a database with companies, people, and professionals (people who work for companies)
+
+Answer:
+1. Companies: CompanyId, CompanyName, Address
+2. People: PeopleId, Name, Phone, Sex, DOB, Address
+3. Professionals: ProfessionalId, PeopleId, WorksForId, Degree, Experience
+4. WorksFor: ProfessionalId, CompanyId, Salary, JoiningDate

@@ -1,0 +1,29 @@
+Question:
+How would you measure the time spent in a context switch?
+
+Answer:
+1. Context switch is the time spent switching between two processes (not threads) i.e. bringing a waiting process into execution and sending a executing process into waiting state.
+2. This happens in multi-tasking.
+3. The operating system must bring back the state information of waiting process into memory and save the state information of the currently running process.
+4. To know the context switch time, we need to record the timestamps of last and first instruction of the swapping process.
+5. Context time is the difference in the timestamps between the two processes.
+6. Assume there are process P1 and P2. P1 is executing and P2 is waiting for execution.
+7. At some point, OS will swap P1 and P2. Lets assume this happens at Nth instruction of P1.
+8. If Tx,k indicates the timestamp in microseconds of the Kth instruction of process x, then the context switch would take T2,1 - T1,n microseconds.
+9. Problem is how do we know when the swapping happnes? We can't record the timestamp of every instruction in the process.
+10. One more problem is that swapping is controlled by scheduling algorithm of OS and there may be many kernel threads which are also doing context switches.
+    Other processes could be contending for the CPU or the kernel handling interrupts.
+    The user does not have any control over these extraneous switches.
+    For example, if at the time T1,n, the kernel decides to handle an interrupt, then the context switch time would be overstated.
+11. First we need to create such environment that P1 executes, the task scheduler immediately selects P2 to run. We dont want unnecessary things like kernel coming into picture.
+    For doing this, we can construct a data channel, such as pipe between P1 and P2 and having the two processes play a game of ping-pong with a data token. 
+12. Game between P1 and P2:
+   a. P1 will be initial sender and P2 to be receiver.
+   b. P2 is blocked as it awaits the data token
+   c. When P1 executes, it delivers the token over the data channel to P2 and immediately attempts to read the response token.
+   d. However since P2 has not yet had a chance to run, no such token is avaibale for p1 and thus prcess is blocked. This relinquishes the CPU.
+   e. A context switch happens and task scehduler must select another process to run.
+   f. Since P2 is now in a ready-to-run state, it is a desirable candidate to be selected by the task scheduler for execution.
+   g. When P2 runs, the roles of P1 and P2 are swapped. P2 now acts as sender and P1 as receiver.
+   h. The game ends when P2 runs the token to P1.
+13. Thus we can find the context switch time. Remember this time is taken as task scheduler needs to bring state information of waiting process into memory and many other things.

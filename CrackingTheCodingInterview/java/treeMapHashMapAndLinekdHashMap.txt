@@ -1,0 +1,19 @@
+Question:
+Explain the differences between TreeMap, HashMap and LinkedHashMap
+
+Answer:
+HashMap:
+1. HashMap is arrayList of linkedList.
+2. O(1) time complexity
+
+TreeMap:
+1. TreeMap is implemented using red-black tree.
+2. We can iterate breadth first to get the sorted order of keys.
+3. O(logn)
+4. Use it when we need to get the keys in sorted/natural order. Example, map of name to person object. Here we might want to get the persons in sorted order.
+
+LinkedHashMap:
+1. LinkedHashMap is implemented using doubly linked buckets.
+2. We can get the keys in its insertion orde.r
+3. O(1) because we store hashMap of key to node. And nodes form a linked list.
+4. Use it when insertion order is important. Example in a caching situation, we want to delete the oldest item.

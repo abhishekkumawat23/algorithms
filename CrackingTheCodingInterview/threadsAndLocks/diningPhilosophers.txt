@@ -1,0 +1,83 @@
+Question:
+In the famous dining philosophers problem, a bunch of philosophers are sitting around a circular table with one chopstick between each of them.
+A philosopher needs both chopsticks to eat, and always picks up the left chopstick before the right one.
+Philosopher eats 10 bites to finish eating. 
+After every bite, philosopher puts the chopsticks back.
+A deadlock could potentially occur if all the philosophers reached for the left chopstick at the same time.
+Using threads and locks, implement a simulation of dining problem that prevents deadlocks.
+
+Answer:
+Answer without thinking about deadlocks:
+ChopStick:
+  Lock lock
+  ChopStick():
+    lock = new ReentrantLock()
+  pickUp():
+    lock.lock()
+  putDown():
+    lock.unlock()
+    
+Philosopher extends Thread:
+  ChopStick left, right
+  Philosopher(left, right):
+    this.left = left
+    this.right = right
+  run():
+    for i = 0 to bites.length-1
+      eat()
+  eat():
+    pickUp()
+    chew()
+    putDown()
+  pickUp():
+    left.pickUp()
+    right.pickUp()
+  putDown():
+    right.putDown()
+    left.putDown()
+    
+Above solution can cause deadlock if all philosophers picks left chopstick at same time. Everyone will be waiting for right chopstick.
+
+Solution 1: All or nothing
+If we get a left chopstick but no right chopstick, we put down the left chopstick as well.
+ChopStick:
+  Lock lock
+  ChopStick():
+    lock = new ReentrantLock()
+  pickUp()
+    return lock.tryLock()
+  putDown
+    lock.unlock()
+
+Philosopher extends Thread:
+  ChopStick left, right
+  Philosopher(left, right):
+    this.left = left
+    this.right = right
+  run():
+    i = 0
+    while i < bites.length
+      if eat()
+        i++
+  eat():
+    if pickUp()
+      chew()
+      putDown()
+      return true
+    return false
+  pickUp():
+    if !left.pickUp()
+      return false
+    if !right.pickUp()
+      left.putDown()
+      return false
+    return true
+  pickDown():
+    right.putDown()
+    left.putDown()
+
+In this approach also, there is a problem. All philosophers at same time can simultaneously pick and then simultaneously put down and this goes on and on.
+To solve this problem, we can break the pattern of picking left and then right for last philosopher.
+    
+    
+    

@@ -1,0 +1,27 @@
+Question:
+We have the following method used in a chess game: boolean canMoveTo(int x, int y).
+This method is part of the Piece class and returns whether or not the piece can move to position (x, y).
+Explain how would test this method
+
+Answer:
+This is `testing a function` scenario
+Step 1: Define test cases
+  1. Normal test cases:
+     a. Move anywhere except edges
+     b. Move camel to diagonals
+     c. Move elephants to rows and columns
+     d. Move queen in diagonal or row or column
+  2. Extreme test cases:
+     a. Move to corners
+     b. Move to edges
+  3. Illegal test cases
+     a. Move to invalid point like -2,-3
+  4. Strange test cases:
+     a. Move to same point where
+     b. Move to point where another piece is already present.
+     c. Move to a point which is empty but there is no direct way to go there
+     d. Move camel in row/column
+Step 2: Define test results:
+Skipping
+Step 3: Write test method
+Skipping     

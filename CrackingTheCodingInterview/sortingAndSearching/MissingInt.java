@@ -14,6 +14,9 @@ import java.util.Scanner;
 public class MissingInt {
 
 	/**
+	 * **Note**
+	 * 1. There is an issue in below code. We can't use boolean array as boolean is of 1 byte in Java. So we should use byte array. 
+	 * 
 	 * Important points:
 	 * 1. 1 GB has 8 billion bits.
 	 * 2. In Java, 2^32 i.e. 4 billion bits i.e. 4 billion integers possible. Out of 4 billion, 2 billion are non-negative

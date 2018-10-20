@@ -1,0 +1,10 @@
+Question:
+What is denormalization? Explain the pros and cons.
+
+Answer:
+1. Denormalization is a database optimization technique in which we add redundant data to one or more tables.
+2. This helps us avoiding costly joins in a relational database.
+3. Cons are:
+   a. Updates and inserts are more expensive.
+   b. Data may be inconsistent if update not done correctly.
+   c. More storage required.

@@ -1,0 +1,113 @@
+Important points:
+1. Classes and Inheritance:
+   a. Macro:
+      i. Macros are piece of code with same name. It can be a constant, a method etc.
+      ii. It can be defined anywhere, within class, outside class etc.
+      iii. Macro without argument: `#define LIMIT 5`.
+      iv. Macro with arguments: `#define AREA(x, y) (x*y)`
+   b. Defining a method:
+      i. By default methods are private in cpp
+      ii. Example:
+          public:
+            void aboutMe(){
+              cout << "I am a person";
+            }
+   c. Creating an object: Student * p = new Student();
+   d. Deleting an object: delete p;
+   e. Calling a method: p->aboutMe();
+   f. Memory deallocation: In cpp, we need to deallocate allocated memory after use. So if we create p object, we need to call delete p to deallocate memory.
+   
+2. Constructors and destructors:
+   a. If no constructor defined, cpp automatically creates one called default constructor.
+   b. Destructor cleans up upon object deletion is automatically called when an object is destroyed.
+   c. i.e. when `delete p` is called where p is a person, then Person destructor is called. We can add logic here to destroy/free internal objects.
+   
+3. Virtual functions (vTable mechanism is used internally):
+   a. Consider following examples:
+      Example 1:
+        Student * p = new Student(); p->aboueMe();
+      Example 2:
+        Person * p = new Student(); p.aboutMe();
+   b. In above examples, which class's aboutMe is called? In example1, student's aboutMe is called and in example2, person's aboutMe is called.
+   c. This happens because functions are resolved at compile time i.e. static binding.
+   c. Ideally we want to call student's aboutMe in example2. To do that we need to define Person class (parent) aboutMe method as virutal.
+   d. By defining function as virtual, binding happens at run time. i.e. dynamic binding.
+   e. virtual function is also used to define abstract method. Just dont add any implementation in virtual and its now abstract method and thus class is abstract and thus we can't instantiate it.
+   
+4. Virtual destructors:
+   a. If we define virtual method, then we should also define virtual destuctor.
+   b. Example: Person * p = new Student(); p->aboutMe(); delete p;
+   c. Here aboutMe of student will be called if we have defined Person aboutMe as virtual.
+   d. But on delete p, person destructor will be called as destructor is not virtual.
+   e. This can cause student additional objects not to get cleaned up.
+   f. So we need to define destructors alspo virtual.
+   g. Now delete of both Student and Person will be called on `delete p`.
+
+5. Default values:
+   a. int func(int a, int b = 3) {
+        x = a;
+        y = b;
+        return a + b;
+      }
+
+6. Operator overloading:
+   a. We can apply operators like + to objects because of operator overloading. [Not supported in Java except strings]
+   b. For this we need to overload + oeprator by overriding operator+ method
+   c. Example:
+      Person operator+(const Person &other){
+        // Logic to add both persons and return it.
+      }
+
+7. Pointers and references:
+   a. int * a = new int(1);
+      i. a is value which pointer holder. This value is reference address of value 1.
+      ii. &a is reference address of pointer itself.
+      iii. *a is value which pointer is pointing to. i.e. 1
+   b. int b = 5;
+      i. b is value 5
+      ii. &b is reference address of value 5.
+   c. const int & c = 12;
+      i. c is value 12.
+      ii. &c is reference address of calue 12.
+   d. int * d = a;
+      i. d and a will be same and it will be the reference address of value 1.
+      ii. &d will not be equal to &a
+      iii. *d and *a will be same and is 1.
+   e. *d = 7
+      i. It will change *a as well.
+   f. int & e = b
+      i. e and b are same and points to 5
+      ii. &e and &b are also same and points to reference address of 5. i.e. both are alias of same reference address.
+   g. int f = b
+      i. f and b will be same which is 5 but are different copies.
+      ii. &f and &b will point to different reference address.
+   h. int & g = *a
+      i. g will point to 7
+      ii. &g will point to reference address of 7.
+   i. Pointer arithmetic: 
+      i. int * p = new int[2]; p[0] = 3; p[1] = 4; p++;
+      ii. In case of array, pointer stores reference address of first value. Thus *p point to 3. 
+      iii. Now p++ updated reference address stored by pointer adding 1 in it. Thus now *p points to 4.  
+   j. Important points:
+      i. Pointers can change to point different piece of memories. Reference can be set to one piece of memory only and can't be changed.
+      ii. Pointers can be null but referene can't be
+      iii. Pointer has memory of its own. Reference doesn't have its own memory. They are just aliases of a piece of memory.
+      iv. Size of pointer can be 32 bit or 64 bit depending on 32 bit vs 64 bit machine.
+      ii. Reference can be set to one value only and can't be changed.
+
+8. Method `pass by`:
+   i. pass by value: aboutMe(int x)
+   ii. pass by reference: abooutMe(int &x)
+   iii. pass by pointer: aboutMe(int *x)
+   iv. pass by pointer for arrays: aboutMe(int *array)
+   v. pass by reference for arrays: aboutMe(int *&array)
+   vi. When passing array to method, we also need to pass length as array is reduced to pointer. 
+      
+9. Templates
+  a. Like Java generics, here we can use tempaltes
+  b. Example
+     template <class T>class ShiftedList
+     {
+       T* array;
+       int offset, size;
+     }

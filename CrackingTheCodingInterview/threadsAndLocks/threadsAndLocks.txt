@@ -1,0 +1,51 @@
+Threads:
+1. Main thread:
+   a. When a standalone application is ran, a user thread is automatically created to execute the main() method.
+   b. This thread is called main threas.
+2. Implementing thread via `Implementing the runnable interface`:
+   a. Create a class implementing Runnable interface.
+   b. Create a new Thread object passing class object which implements runnable.
+   c. Call thread.start
+3. Implementing thread via `Extending the thread class`
+   a. Create a thread by extending the thread class.
+   b. Create object of this class which extends thread.
+   c. Call classObject.start
+4. `Extending thread class` vs `Implementing runnable interface`:
+   a. Runnable interface should be preferred over thread class extending.
+   b. Java doesn't support multiple inheritance. Thus if a class extends Thread, it can't extend any other class.
+   c. A class doesn't need full overhead of the thread class. It might just need to be runnable. Thus runnable makes much sense there.
+   
+Synchronization and locks:
+1. Requirement:
+   a. Threads of same process share same memory.
+   b. This enables Thread to share data.
+   c. But this causes issues when two threads modify a resource at the same time.
+   d. Synchronized and locks are the two ways for implementing synchronized execution of code.
+   e. Synchronized keyword can be used for methods and code blocks
+2. Synchronization using `synchronized methods`:
+   a. Lets say MyObject class foo method is synchronized.
+   b. If two threads have different MyObject instances, then both threads can simultaneously call foo method of Myobject class.
+   c. But if both threads have same MyObject instances, then both threads can't simultaneously call foo method.
+   d. if static method is synchronized, then it synchronizes on class. i.e. if thread1 has instance1 of MyObject and is calling foo, then thread2 which has instance2 of MyObject can't call foo or bar method of MyObject class as lock is on Class.
+3. Synchronization using `synchronized blocks`:
+   a. Similar to synchronizing a method, only one thread per instance of MyObject can execute the code within the synchronized block.
+   b. synchronized(lock) { ... } is the syntax.
+4. Synchronization using `Locks`:
+   a. We can use locks for more granular control of resource.
+   b. A thread gets access to a shared resource by first acquiring the lock associated with the resource.
+   c. At any given time, at most one thread can hold the lock and, therefore, only one thread can access the shared resource.
+   d. If we want that when a thread is in method1, no other thread should visit method1 and also method2, then same lock is applied to both methods.
+ 
+Deadlocks and deadlock prevention:
+1. A deadlock is a situation where thread1 is waiting for an object lock which another thread holds, and this second thread is waiting for an object lock that the first thread holds.
+2. Since each thread is waiting for other thread to relinquish a lock, they both remain waiting forever. The threads are said to be deadlocked.
+3. Condition for reaching deadlock:
+   a. Mutual exclusion: Only one thread can access a resource at a given time
+   b. Hold and wait: Thread holding a resource can request additional resources, without relinquishing their current resources.
+   c. No Preemption: One thread can't forcibly remove another process's resource.
+   d. Circular wait: Two or more threads form a circular chain where each thread is waiting on another thread in the chain.
+4. To prevent deadlock, we can break any of above condition. Usually #4 condition is breaked.
+
+Semaphore:
+1. Read about it in callInOrder.txt    
+  

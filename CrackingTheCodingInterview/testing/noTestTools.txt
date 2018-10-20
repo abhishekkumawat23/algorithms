@@ -1,0 +1,22 @@
+Question:
+How would you load test a webpage without using any test tools
+
+Answer:
+This problem is of `testing a piece of software` category.
+
+Load test find majorly 2 type of issues:
+1. Maximum operational capacity
+2. Any bottlenecks with effects performance
+
+Typical things to check in load testing a webpage is:
+Use cases:
+1. Response time
+2. Throughput
+3. Resource utilization
+4. Maximum load the system can bear
+
+How to perform testing:
+1. Simulate concurrent users by creating thousands of virtual users and run them in a multi-threaded program with thousands of threads.
+2. Each thread will act as real-world user loading the page.
+3. Programmatically measure response time, data I/O etc.
+4. Analyze the data to find results.

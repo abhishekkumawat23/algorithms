@@ -1,0 +1,12 @@
+Question:
+You are given a class with synchronized method A and a normal method B.
+If you have two threads in one instance of a program, can they both execute A at the same time?
+Can they execute A and B at the same time?
+
+Answer:
+Can they execute A at the same time?
+No if both has same instance of class.
+Yes it instances of class are different.
+
+Can they execute A and B at the same time?
+Yes threads can execute A and B at same time even if they have same instance of class or not.

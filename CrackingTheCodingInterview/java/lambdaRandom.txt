@@ -1,0 +1,12 @@
+Question:
+Using lambda expressions, write a function List<Integer> getRandomSubset(List<Integer> list) that returns subset of arbitrary size.
+All subsets (including the empty set) should be equally likely to be chosen.
+
+Answer:
+getRandomSubset(list):
+  random = new Random()
+  predicate = k -> {
+    return random.getBoolean()
+  }
+  return list.stream().filter(predicate).collect(Collectors.toList())
+  

@@ -1,0 +1,6 @@
+Important points:
+ 32 bit vs 64 bit architecture:
+ 1. In 32 bit, CPU register is of 32 bit.
+ 2. CPU register 1 bit can address 1 byte of RAM. Thus 32 bit can point to 2^32 different bytes which is 4 GB.
+ 3. As CPU register can point to 4 GB RAM only, only 4 GB of RAM is usable as CPU register needs to point memory for any processing.
+ 4. In 64 bit, CPU stores addrees using 64 bit. Thus we don't have any 4 GB limitation.

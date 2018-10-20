@@ -1,0 +1,46 @@
+Explicit vs Implicit Join:
+1. Explicit join:
+   SELECT CourseName, TeacherName
+   FROM Courses INNER JOIN Teachers
+   ON Courses.TeacherID = Teachers.TeacherID
+2. Implicit join:
+   SELECT CourseName, TeacherName
+   FROM Courses, Teachers
+   WHERE Courses.TeacherID = Teachers.TeacherID
+
+Denormalized vs normalized databases:
+1. Normalized databases are designed to minimize redundancy.
+2. Denormalized databases are designed to optimize read time.
+3. In denormalized db, redundant data is stored if we knew that we have to repeat the query very often which involves join.
+4. Denormalization is commonly used to create highly scalable systems.
+
+Small database design:
+Database design is similar to object oriented design
+Example: Design a system to represent an apartment rental agency.
+Step 1: Handle ambiguity
+  1. Does agency have multiple locations or only one.
+  2. Like this ask questions and get clarifications
+Step 2: Define core objects
+  1. Define core objects. Each core objects will represent a table in db.
+  2. For example case, Property, Building, Apartment, Tenant and Manager.
+Step 3: Analyze relationship
+  1. How objects i.e tables relate to each other.
+  2. Check relations if they are one-to-one, one-to-many, many-to-manyB
+  3. Building has one to many relation with Apartment. 
+  4. In object oriented, we can say that Building has apartments OR we can say that Apartment has a building id.
+  5. Apartment having building id is feasible in SQL as in SQL we can't hold list in a single row.
+  6. One to one relationship: No issues to store this.
+  7. One to many and Many to one relation: We can make both of them one to many relation and thus can easilt store it.
+  8. Many to many relation: Here we create Table1, Table2 and then one more table connecting multiple table1 rows to multiple table2 rows. Here primary id is neither table1 or table2 id as they can be multiples.
+Step 4: Investigate actions
+  1. Go through generic actions and see how data will be stored/retrieved on these actions.
+  2. Based on these actions, we might need to add new tables and columns.
+  
+Large database design:
+  1. When designing large databases, joins are very expensive.
+  2. So we must denormalize our data.
+  3. We might need to horizontal scale our data as well.
+  
+Important points:
+1. where clause cannot have aggregate functions.
+2. So we use `having` clause when we want to use aggregate function example `having count(*) > 0`

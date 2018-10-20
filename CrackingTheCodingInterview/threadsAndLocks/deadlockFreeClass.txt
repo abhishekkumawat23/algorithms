@@ -1,0 +1,86 @@
+Question:
+Design a class which provides a lock only if there are no possible deadlocks
+
+Answer:
+Important points:
+1. For every process, we will ask to declare the locks which it will need of class.
+2. Using these declared locks, we will create a graph.
+3. We will check whether this graph is connected or not.
+
+Logic:
+1. Class which checks whether there are possible deadlocks is LockFactory.
+2. We can pass array of locks contained by a class to LockFactory. These locks will be stored as LockNode objects. LockNode object is graph node object containing lock itself and its children.
+3. For quick access, we will also store LockNode to Lock map.
+3. LockFactory class is singleton and thus its getInstance is synchronized otherwise multiple threads will override instance of it.
+4. LockFactory has a declare method by which a process can declare which locks (in order) its going to use. In this way it will know whether deadlocks can happen or not.
+5. In declare method, we add edges of declared locks in our LockNode array. We will create edge between adjacent elements of declared locks. LockNode array will already be containing edges of previous processes. 
+6. Now we will check whether this graph has any cycles or not.
+7. If there are any cycles, we remove all the edges which we added in this new locks declare.
+
+class LockFactory {
+  private LockNode[] locks;
+  private HashMap<Lock, LockNode> locksMap;
+  private static LockFactory instance;
+  
+  private LockFactory(Lock[] locks) {
+    this.locks = new LockNode[locks.length];
+    this.locksMap = new HashMap<Lock, LockNode>();
+    for (int i = 0; i < locks.length; i++){
+      LockNode lockNode = new LockNode(lock);
+      this.locks[i] = lockNode;
+      locksMap.put(lock, lockNode);
+    }
+  }
+  
+  public static synchronized LockFactory getInstance(Lock[] locks) {
+    if (instance == null) {
+      instance = new LockFactory(locks); 
+      
+    }
+    return instance;
+  }
+  
+  public boolean declare(Lock[] locksInOrder) {
+    // Add edges
+    for (int i = 1; i < locksInOrder.length; i++) {
+      LockNode parentLockNode = locksMap.get(locksInOrder[i-1]);
+      LockNode childLockNode = locksMap.get(locksInOrder[i]);
+      parentLockNode.addChildren(childLockNode);
+    }
+    
+    // Check cycles
+    boolean hasCycle = hasCycle();
+    if (!hasCycle) {
+      return;
+    }
+    
+    // Remove edges as there are cycles
+    for (int i = 1; i < locksInOrder.length; i++) {
+      LockNode parentLockNode = locksMap.get(locksInOrder[i-1]);
+      LockNode childLockNode = locksMap.get(locksInOrder[i]);
+      parentLockNode.removeChildren(childLockNode);
+    }
+  }
+  
+  private boolean hasCycle() {
+    HashMap<LockNode, boolean> visited = new HashMap<LockNode, boolean>;
+    for (LockNode lockNode : locks) {
+      if (visited.get(lockNode)) {
+        continue;
+      }
+      
+      visited.put(lockNode, true);
+      for (LockNode childrenNode : locks[i].children()) {
+        if (visited.get(childrenNode)){
+          return false;
+        }
+        visited.put(childrenNode, true);
+      }
+    }
+  }
+}
+
+public class LockNode {
+  private ArrayList<LockNode> children;
+  private Lock lock;
+}

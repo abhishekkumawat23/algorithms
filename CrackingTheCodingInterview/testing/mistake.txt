@@ -1,0 +1,14 @@
+Question:
+Find the mistake(s) in the following code:
+unsigned int i;
+for (i = 100; i >= 0; --i)
+  printf("%d\n", i);
+  
+Answer:
+1. Error 1:
+   a. It will run forever as unsigned i can't become negative. -1 is 11111111111111111111111111111111
+   b. Fix: i >= 0 => i > 0 and write one more printf after loop for covering i = 0 part
+2. Error 2:
+   a. %d is used for unsigned. 
+   b. For unsigned, use %u
+   

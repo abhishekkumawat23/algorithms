@@ -1,0 +1,35 @@
+Question:
+Imagine a simple database storing information for student's grades.
+Design what this database might look like and provide a SQL query to return a list of the honor roll students (top 10%), sorted by their grade point average.
+
+Answer:
+Core objects: Students, Courses, CourseEnrollment
+
+Analyze relationships:
+1. Students: StudentId, Name, Address
+2. Courses: CourseId, CourseName, ProfessorId
+3. CourseEnrollment: CourseId, StudentId, Grade, Term
+
+Query for top 10% sorted by grade point average (GPA):
+select top 10 percent StudentId, AVG(Grade) as GPA
+from CourseEnrollment
+group by StudentId
+order by Avg(Grade)
+
+Problem with above query is that it will give exact 10%. i.e. students who cut off at 10% will not be includes even if they had same GPA. We want to include them.
+So lets first find out the min GPA at 10%
+declare @GPACutOff float;
+set @GPACutOff =
+select min(GPA) as 'GPAMin' From
+  (select top 10 percent StudentId, AVG(Grade) as GPA
+  from CourseEnrollment
+  group by StudentId
+  order by Avg(Grade)) Grades
+);
+
+Now we will get all the students scoring this min GPA
+select StudentId, AVG(Grade) as GPA
+from CourseEnrollment
+group by StudentId
+order by Avg(Grade)
+having avg(Grade) >= @GPACutOff

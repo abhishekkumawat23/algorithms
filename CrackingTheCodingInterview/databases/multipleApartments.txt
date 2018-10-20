@@ -1,0 +1,28 @@
+Question information:
+Database describes a apartment rental agency.
+
+Each apartment can have multiple tenants.
+Each tenant can have multiple apartments.
+i.e. Tenant and apartment has many-many relation.
+Each apartment belong to a building.
+Each building belongs to a complex.
+
+Based on info, Tables are:
+1. Buildings: BuildingId, BuildingName, ComplexId, Address
+2. Apartments: ApartmentId, UnitNumber, BuildingId
+3. Tenants: TenantId, TenantName
+4. Complexes: ComplexId, ComplexName
+5. TenantApartments: TenantId, ApartmentId
+6. Requests: RequestId, Status, ApartmentId, Description
+
+Question:
+Write a SQL query to get a list of tenants who are renting more than one apartment.
+
+Answer:
+select TenantName
+from Tenants inner join
+  (select TenantId
+  from TenantApartments
+  group by ApartmentId
+  having count(*) > 1) C
+on Tenants.Id = C.TenantId

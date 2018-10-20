@@ -1,0 +1,40 @@
+Question:
+How would you test an ATM software in a distributed banking system?
+
+Answer:
+`Testing piece of software` problem
+Step 1: Black box vs white box
+
+Step 2: Who are the users?
+  1. Normal persons
+  2. blind persons
+  
+Step 3: What are the use cases
+  1. Withdraw money
+  2. Know the balance
+  3. Change password
+  4. transferring money
+  5. Logging in
+  6. Deposit money
+  
+Step 4: What are the bounds of the use
+  1. Users should be able to withdraw money in range 0, 20000
+  2. Denominations available are 100,200,500,2000
+  3. Atm should work only if it has max 5 people in room
+  4. Money transactions should be secure
+  
+Step 5: What are stress/failure conditions
+  1. User trying invalid login multiple times
+  2. User doing suspicious activity
+  3. No money in ATM
+  4. No electricity in ATM
+  5. ATM out of order
+  
+Step 6: What are test cases and how you would perform the testing
+  1. Black box vs white box: Include unit test/integration tests as well if white box
+  2. Manual testing and automated testing
+  3. Normal test cases - Withdrawing money
+  4. Extreme test cases - Withdrawing max limit, min limit
+  5. Failure test cases - No money in atm, electricity down, login attempts fail, negative money withdraw
+  6. Strange test cases - Withdrawing non-denomination money
+  
