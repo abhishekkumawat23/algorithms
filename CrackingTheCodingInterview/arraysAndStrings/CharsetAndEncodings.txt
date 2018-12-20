@@ -15,7 +15,7 @@
 15. There came a utf-16 (unicode transformation format) encoding which stores data in 2 bytes pair. Minimum 2 byte and maximum 4 byte will represent a character. i.e. logical unit of utf-16 is 2 bytes.
 16. So till 65536(2^16) characters, 2 bytes pair will be used. After that 4 bytes.
 17. Problem in this encoding is that to represent ASCII characters also, it needs 2 bytes. ASCII needs 1 byte there. Thus it is not supported with old ASCII based systems.
-18. There came one new utf-8 encoding for unicode characters which says minimum 8 bytes and maximum 4 bytes will represent a character. i.e. logical unit in utf-8 is 1 byte.
+18. There came one new utf-8 encoding for unicode characters which says minimum 1 byte and maximum 4 bytes will represent a character. i.e. logical unit in utf-8 is 1 byte.
 19. So ASCII charaters in utf-8 has 1 byte only thus this encoding is supported by old ascii system as well.
 20. As mostly used characters are ASCII. Using 1 byte for them saves space as well.
 21. As utf-16 uses 2 bytes.For A character, it can represent it via both \u0041(low endian) or \u4100 (high endian).
